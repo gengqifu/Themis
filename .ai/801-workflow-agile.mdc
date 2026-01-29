@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 敏捷工作流与核心记忆程序规则 - 必须严格遵守！
+
+**关键规则**：首先，确保基础 PRD 结构存在于 `.ai/prd/` 目录中，以 `.ai/prd/index.md` (使用 `.ai/templates/template-prd-index.md`) 和 `.ai/prd/APP-Overall-Vision.md` (使用 `.ai/templates/template-prd-app-vision.md`) 作为起点。如果不存在，请与用户一同创建这些文件（使用指定的模板），以充分了解项目的范围和愿景。**请密切关注所有文档中的 YAML Front Matter，尤其是 `status` 字段。**
+**关键规则**：此工作流规则对您的记忆系统至关重要。所有已计划、已完成或已更改的内容都将记录在 `.ai/` 文件夹中。确保这些信息以最高质量保存并保持最新状态至关重要。当不确定时，请根据需要参考 PRD 文档（特别是 `.ai/prd/index.md`、`.ai/prd/APP-Overall-Vision.md` 和相关的 `.ai/prd/features/[feature-name]/index.md` 文件）、`.ai/architecture/arch-overview.md`、当前和以前的 Story 以获取指导。如果仍然不确定，**切勿猜测——请向用户寻求帮助。**
+
+1.  **初始化与 PRD 基础构建**：
+    *   上线后，首先检查基础 PRD 文件 `.ai/prd/index.md` 和 `.ai/prd/APP-Overall-Vision.md` 是否存在。
+    *   如果不存在，您的首要目标是与用户合作创建这些文件，其中 `index.md` 使用 **`.ai/templates/template-prd-index.md`**，`APP-Overall-Vision.md` 使用 **`.ai/templates/template-prd-app-vision.md`**。
+    *   确保所有 YAML Front Matter 字段，特别是 `status`，都已正确初始化（例如，`status: 草稿`）。这些文档对于您理解项目的整体目标、愿景和高层计划至关重要。
+
+2.  **PRD Feature (特性) 定义与审批 (迭代进行)**：
+    *   如果整体 PRD 基础（在其各自的 YAML Front Matter 中）已为 `status: 已批准`，但特定 Feature 尚未定义，或者其 `.ai/prd/features/[feature-name]/index.md` 文件尚未为 `status: 已批准`：
+    *   您的目标是帮助定义或完善这些 Feature 文档，使用 **`.ai/templates/template-prd-feature.md`**。
+    *   对于每个 Feature（例如，`user-authentication`），应存在或创建一个 `index.md` 文件（例如，`.ai/prd/features/user-authentication/index.md`）。此文档的 YAML Front Matter 必须填写完整，其 `status` 字段将跟踪其审批状态。
+    *   内容必须与 `.ai/templates/template-prd-feature.md` 一致，详细说明目标、范围、用户故事（链接到其未来的 `.md` 文件）、非功能性需求、设计链接等。
+    *   只有在特定 Feature 的 `.ai/prd/features/[feature-name]/index.md` 文件的 YAML `status` 经用户确认为 `已批准` 后，您才能继续为该 Feature 定义 Story。
+
+3.  **架构文档 (全局及按需的 Feature 特定文档)**：
+    *   一旦整体 PRD 基础 (`.ai/prd/index.md` 和 `.ai/prd/APP-Overall-Vision.md`) 的 YAML `status` 字段为 `已批准`，如果全局架构文档 `.ai/architecture/arch-overview.md` 不存在，或需要根据新批准的 Feature 进行更新，则生成或更新该文档，使用 **`.ai/templates/template-arch-overview.md`**。此文档也需要其 YAML `status` 为 `已批准`。
+    *   对于复杂的 Feature，如果需要在其目录内（例如，`.ai/prd/features/user-authentication/design-considerations.md`）提供 `design-considerations.md`，请使用 **`.ai/templates/template-design-considerations.md`**。此文档也将拥有其自己的 YAML `status` 以供审批。确保其与 `.ai/architecture/arch-overview.md` 保持一致。
+
+4.  **在已批准的 Feature 内创建 Story**：
+    *   一旦特定 Feature 的 `.ai/prd/features/[feature-name]/index.md` 的 YAML `status` 为 `已批准`，并且全局 `.ai/architecture/arch-overview.md` 的 YAML `status` 也为 `已批准`：
+    *   根据 Feature 的 `index.md` 中列出的优先级或用户指示，确定该 Feature 下一个要处理的 Story。
+    *   在该 Feature 的 `stories/` 子文件夹中使用 **`.ai/templates/template-story.md`** 创建此 Story Markdown 文件的草稿。
+        *   **文件命名规范**：`[StoryID]-[简短描述]-[目标版本].md` (例如, `UA001-basic-registration-v1.0.md`)。
+        *   **YAML Front Matter**：填充 Story 的 YAML Front Matter 中的所有必填字段，包括 `id`、`title`、`epic_id` (即 Feature 名称/ID)、`feature_title`、`target_version`，并将 `status` 初始化为 `草稿`。
+        *   **存放位置**：`.ai/prd/features/[feature-name]/stories/[StoryID]-[简短描述]-[目标版本].md`。
+    *   如果 Feature 的 `stories/` 子文件夹和父 Feature 文件夹不存在，请确保创建它们。
+
+5.  **Story 审批**：
+    *   在处理新创建/草稿状态的 Story 文件之前，您将等待其 YAML `status` 变为 `已批准`。
+
+6.  **已批准 Story 的 TDD 开发周期**：
+    *   您是 TDD 大师。对于 Story（在其 `.md` 文件中列出）中的每个任务或子任务：
+        *   首先，编写一个失败的测试。
+        *   然后，编写最少的代码使测试通过。
+        *   重构代码。
+    *   在进入下一个子任务或在 Story 的 `.md` 文件中将子任务标记为完成之前，确保当前工作的所有测试都已通过。
+
+7.  **开发过程中的 Story 文件更新**：
+    *   逐步更新活动 Story 的 `.md` 文件：
+        *   勾选已完成的任务。
+        *   更新 `Development Notes & Log` (开发笔记与日志) 部分。
+        *   如有必要，更新其 YAML `status` (例如, 更新为 `进行中`, `已阻塞`)。
+    *   Story 文件是您的活动记忆和日志。
+
+8.  **Story 完成与下一个 Story**：
+    *   一个 Story **只有在**其所有子任务完成、其自身所有测试通过，**并且**整个项目（或至少受影响的 Feature 及相关集成点）的所有现有测试仍然通过（回归测试）之后，才算**完成**。
+    *   在所有这些条件都满足之前，不要告知用户 Story 已完成，也不要将其 YAML `status` 更新为 `已完成`。
+    *   一旦一个 Story 真正完成 (YAML `status: 已完成`)，根据 Feature 的 `index.md` 中的优先级或用户指示，在相应的 Feature 的 `stories/` 文件夹中（使用 `template-story.md`）生成下一个 Story 的草稿，并提交以供审批（初始 YAML `status: 草稿`）。
+
+### 开发期间 (通用指南)
+
+*   随着子任务的完成或新信息的出现，持续更新相关的 Story `.md` 文件（YAML Front Matter 和内容）。
+*   如果您不确定下一步操作，或者 Story 中的某个需求似乎与已批准的 PRD 或架构文档冲突，**请向用户寻求澄清。** 在您的问题中引用具体的文档及其 `status`。
+*   当用户提示“更新 Story”时，更新**当前活动 Story 的 `.md` 文件**（包括 YAML 和内容）以：
+    *   准确反映当前的实现状态。
+    *   阐明接下来的直接开发步骤。
+    *   确保文件中的“Chat Command Log”(聊天命令日志) 或 “Development Notes & Log”(开发笔记与日志) 部分与任何重要的聊天线程交互或已做出的决策保持同步。
+*   持续验证 Story 文件中的信息是否正确，以及后续步骤是否清晰，并与已批准的 PRD (Feature `index.md`) 和架构 (`arch-overview.md` 及 Feature `design-considerations.md`，如适用) 保持一致。
+
+## 您不需要征求许可即可：
+
+1.  为下一个要处理的 Story (在一个已批准的 Feature 内) 创建 `.md` 文件 (使用 `.ai/templates/template-story.md`)，如果尚不存在，然后提交以供审批 (设置初始 YAML `status: 草稿`)。
+2.  在 Story 的开发过程中运行相关的单元测试和集成测试，直到它们通过。
+3.  在 Story 的 `.md` 文件中，随着验收标准 (AC) 和任务列表的完成而更新其勾选状态。
+4.  更新 Story 的 `.md` 文件（YAML 和内容，特别是 `Development Notes & Log` 和 `Chat Command Log`），以保持关于该 Story 的最佳记忆和上下文。
