@@ -41,13 +41,17 @@ related_prd_feature: "../index.md"
   - 在命中行同一行内出现 marker 即豁免；允许前一行注释（已确认）
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] 定义 diff 输入数据结构与解析测试（unified diff -> file/line 列表）
-- [ ] 实现 `diff` 模式扫描（只读指定行）
-- [ ] 实现 `full` 模式扫描开关（与 SS001 结合）
-- [ ] 实现路径豁免（glob）与测试
-- [ ] 实现注释豁免（marker）与测试
-- [ ] 定义 baseline schema（json/yaml）与读写逻辑（只存指纹/不存原文）
-- [ ] 实现 baseline 过滤与测试
+- [ ] **测试**：diff 输入解析（unified diff -> file/line 列表）
+- [ ] **测试**：`diff` 模式仅扫描新增/修改行
+- [ ] **测试**：`full` 模式扫描（仍跳过二进制/大文件）
+- [ ] **测试**：路径豁免（glob）与行内/前一行注释豁免
+- [ ] **测试**：baseline 过滤（相同指纹/位置命中应忽略）
+- [ ] **实现**：diff 输入解析与数据结构
+- [ ] **实现**：`diff` 模式扫描（只读指定行）
+- [ ] **实现**：`full` 模式开关
+- [ ] **实现**：路径豁免与注释豁免
+- [ ] **实现**：baseline schema 与过滤逻辑（仅指纹）
+- [ ] **重构**：简化输入管道与豁免判断
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
 - 约束：diff 解析必须兼容 `git diff --cached -U0` 与 GitLab CI 的 MR diff

@@ -51,10 +51,14 @@ related_prd_feature: "../index.md"
 - 误报导致阻断：依赖规则质量与豁免机制；建议支持 `--no-verify` 绕过但记录提示
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] 定义 `install-hooks` 的行为与覆盖策略，并编写测试
-- [ ] 实现 `git diff --cached` 获取与解析（unified diff 输入复用 SS002）
-- [ ] 将 hook 的阻断阈值与 CLI 退出码打通（复用 SS001）
-- [ ] 添加端到端测试：在临时 git repo 中提交包含样本 secret 的 staged 变更应被阻断
+- [ ] **测试**：`install-hooks` 合并现有 `pre-commit` 的策略
+- [ ] **测试**：`git diff --cached -U0` 输入解析与 staged 行筛选
+- [ ] **测试**：阻断阈值（critical）与退出码打通
+- [ ] **实现**：`install-hooks` 合并逻辑与安装脚本生成
+- [ ] **实现**：获取 staged diff 并调用 `themis scan --platform`
+- [ ] **实现**：阻断阈值与 CLI 退出码联动
+- [ ] **重构**：抽离 hook 安装/执行公共逻辑
+- [ ] **测试**：端到端（临时 git repo 中提交包含样本 secret 的 staged 变更应被阻断）
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
 - 约束：hook 必须轻量，不显著拖慢 commit；不引入网络依赖
