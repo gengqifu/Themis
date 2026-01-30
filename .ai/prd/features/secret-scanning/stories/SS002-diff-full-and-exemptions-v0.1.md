@@ -19,13 +19,16 @@ related_prd_feature: "../index.md"
 ## 2. 验收标准 (Acceptance Criteria - AC)
 - [ ] AC1: 支持 `diff` 模式：仅扫描新增/修改的行（输入为 `file -> line_numbers[]` 或标准 unified diff；commit 场景来自 `git diff --cached -U0`，MR 场景来自 GitLab CI 的 MR diff）
 - [ ] AC1.1: diff 解析仅识别 unified diff `@@` hunk，并只对 `+` 行计为新增；忽略 diff 头部（`+++ / ---`）
+- [ ] AC1.2: MR diff 来源：优先从 `CI_MERGE_REQUEST_DIFF_URL` 拉取；允许 `--diff-file` 指定本地 diff 文件（用于本地复现）
 - [ ] AC2: 支持 `full` 模式：扫描指定目录/仓库中的全部文本文件（仍需遵守大小/二进制过滤）
 - [ ] AC3: 支持路径豁免（glob，匹配**仓库相对路径**，基于仓库根目录；默认区分大小写）
 - [ ] AC4: 支持行内注释豁免（例如 `themis:ignore <RULE_ID>` 或 `themis:ignore`；允许指定 RULE_ID 精确豁免）
 - [ ] AC4.1: 允许“前一行注释”豁免（**仅紧邻上一行**包含 `themis:ignore` 标记即豁免下一行命中）
+- [ ] AC4.2: 注释豁免优先级：`themis:ignore <RULE_ID>` 仅豁免该规则；`themis:ignore` 豁免整行所有规则
 - [ ] AC5: 支持 baseline：把已知命中记录到 baseline 文件并在后续运行中忽略（仅对相同指纹/位置生效，默认不存原文）
 - [ ] AC5.1: baseline 文件格式为 `json`，最小结构 `{ "items": [ { "rule_id","file","line","hash" } ] }`
 - [ ] AC5.2: baseline 指纹为 `rule_id + file + line + normalized_match_hash`（normalized_match_hash = 去空白后的匹配文本 SHA256，默认不做大小写折叠）
+- [ ] AC5.3: baseline 路径支持相对仓库根目录；生成 baseline 时覆盖写入（避免合并复杂度）
 
 ## 3. 背景与上下文 (Context & Background)
 - 你明确表示仓库可能存在示例 token/mock key，需要可控豁免机制。
