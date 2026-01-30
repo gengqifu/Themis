@@ -99,3 +99,25 @@ def test_scan_paths_only_lines(tmp_path) -> None:
     )
     assert len(findings) == 1
     assert findings[0]["line"] == 2
+
+
+def test_scan_paths_respects_allowlist(tmp_path) -> None:
+    f = tmp_path / "skip.txt"
+    f.write_text("BEGIN RSA PRIVATE KEY", encoding="utf-8")
+    rules = [
+        {
+            "id": "PRIVATE_KEY_BLOCK",
+            "severity": "critical",
+            "type": "regex",
+            "pattern": r"BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY",
+            "message": "发现私钥块",
+            "enabled": True,
+        }
+    ]
+    findings = scan_paths(
+        [str(tmp_path)],
+        rules=rules,
+        max_file_size_bytes=1000,
+        allowlist_paths=[str(tmp_path / "skip.txt")],
+    )
+    assert findings == []

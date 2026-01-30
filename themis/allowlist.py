@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import fnmatch
 import re
-from typing import Optional
+from typing import Iterable, Optional
 
 
 def is_ignored_by_comment(
@@ -24,4 +25,11 @@ def is_ignored_by_comment(
         return True
     if prev_line and _match(prev_line):
         return True
+    return False
+
+
+def is_ignored_by_path(path: str, patterns: Iterable[str]) -> bool:
+    for pat in patterns:
+        if fnmatch.fnmatch(path, pat):
+            return True
     return False
