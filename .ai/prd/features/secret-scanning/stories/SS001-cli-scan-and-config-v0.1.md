@@ -61,7 +61,7 @@ related_prd_feature: "../index.md"
 - [x] 3. **测试**：输出格式（text/json；脱敏默认前后 2 字符）
 - [x] 4. **测试**：退出码（0/1/2 对应成功/错误/阻断）
 - [x] 5. **测试**：二进制/大文件跳过逻辑（默认阈值与判定规则）
-- [ ] 6. **实现**：建立 Python 包骨架与 CLI 入口（最小可运行）
+- [x] 6. **实现**：建立 Python 包骨架与 CLI 入口（最小可运行）
 - [ ] 7. **实现**：CLI 入口提供 `themis` 可执行脚本，并兼容 `python -m themis`
 - [ ] 8. **实现**：配置加载与 schema 校验
 - [ ] 9. **实现**：配置 schema 明确字段与类型（`scan/rules/output` 等）
@@ -85,6 +85,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 完成输出格式测试（text/json）与脱敏默认前后 2 字符。
 - 2026-01-30 - AI: 完成退出码测试（0/1/2 对应成功/错误/阻断）。
 - 2026-01-30 - AI: 完成二进制/大文件判定测试（基础启发式）。
+- 2026-01-30 - AI: 建立 CLI 入口骨架（`themis scan` / `python -m themis scan`）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。
@@ -93,3 +94,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS001 任务 5.3（输出格式测试）。
 - 用户: 执行 SS001 任务 5.4（退出码测试）。
 - 用户: 执行 SS001 任务 5.5（二进制/大文件跳过测试）。
+- 用户: 执行 SS001 任务 5.6（建立 CLI 入口骨架）。
