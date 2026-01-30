@@ -45,6 +45,10 @@ def resolve_baseline_path(path: str, *, repo_root: str) -> Path:
     return Path(repo_root) / p
 
 
+def write_baseline_overwrite(path: Path, items: Iterable[Dict]) -> None:
+    write_baseline(path, items)
+
+
 def filter_findings(findings: Iterable[Dict], baseline_items: Iterable[Dict]) -> List[Dict]:
     baseline_set = {
         (i.get("rule_id"), i.get("file"), i.get("line"), i.get("hash"))

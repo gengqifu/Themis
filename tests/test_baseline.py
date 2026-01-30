@@ -7,6 +7,7 @@ from themis.baseline import (
     filter_findings,
     load_baseline,
     resolve_baseline_path,
+    write_baseline_overwrite,
     write_baseline,
 )
 
@@ -44,3 +45,11 @@ def test_resolve_baseline_path(tmp_path: Path) -> None:
     rel = "baseline.json"
     resolved = resolve_baseline_path(rel, repo_root=str(repo_root))
     assert resolved == repo_root / rel
+
+
+def test_write_baseline_overwrite(tmp_path: Path) -> None:
+    path = tmp_path / "baseline.json"
+    write_baseline_overwrite(path, [{"rule_id": "R1", "file": "a", "line": 1, "hash": "h"}])
+    write_baseline_overwrite(path, [{"rule_id": "R2", "file": "b", "line": 2, "hash": "h2"}])
+    loaded = load_baseline(path)
+    assert loaded == [{"rule_id": "R2", "file": "b", "line": 2, "hash": "h2"}]
