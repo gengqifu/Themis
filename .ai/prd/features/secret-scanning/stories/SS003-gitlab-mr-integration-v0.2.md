@@ -37,14 +37,14 @@ related_prd_feature: "../index.md"
 - 扫描结果脱敏与限量（避免刷屏与二次泄露）
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] **测试**：MR pipeline 变量解析与 diff 获取逻辑
-- [ ] **测试**：discussion 回写（更新同一条 discussion）
-- [ ] **测试**：CI 运行输出（脱敏、格式正确）
-- [ ] **实现**：CI job 触发条件与必要变量（MR pipeline）
-- [ ] **实现**：GitLab API 客户端（获取 MR diff、回写 discussion）
-- [ ] **实现**：集成扫描器并生成 MR 友好的输出
-- [ ] **重构**：抽离 CI/MR 适配层，减少耦合
-- [ ] **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
+- [ ] 1. **测试**：MR pipeline 变量解析与 diff 获取逻辑
+- [ ] 2. **测试**：discussion 回写（更新同一条 discussion）
+- [ ] 3. **测试**：CI 运行输出（脱敏、格式正确）
+- [ ] 4. **实现**：CI job 触发条件与必要变量（MR pipeline）
+- [ ] 5. **实现**：GitLab API 客户端（获取 MR diff、回写 discussion）
+- [ ] 6. **实现**：集成扫描器并生成 MR 友好的输出
+- [ ] 7. **重构**：抽离 CI/MR 适配层，减少耦合
+- [ ] 8. **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
 
 ## 6. 待解决问题 (Open Questions)
 - GitLab 为 self-managed，版本 13.5.3。
