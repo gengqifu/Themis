@@ -20,10 +20,11 @@ related_prd_feature: "../index.md"
 - [ ] AC1: 提供 CLI 入口 `themis scan`（兼容 `python -m themis scan`），支持指定扫描路径/文件列表；未指定路径时默认扫描当前工作目录
 - [ ] AC2: 配置查找顺序：`--config` > `--platform`(`.themis.<platform>.yml`) > 内置默认
 - [ ] AC2.1: 零配置可用：当配置文件不存在时，仍可使用内置默认规则运行（开箱即用）
-- [ ] AC3: 输出格式支持 `text` 与 `json`（可选）；`json` 输出最小结构为 `{ "findings": [...] }`，每个 finding 至少包含 `rule_id/severity/file/line/message`
+ - [ ] AC3: 输出格式支持 `text` 与 `json`（可选）；默认输出 `text`；`json` 输出最小结构为 `{ "findings": [...] }`，每个 finding 至少包含 `rule_id/severity/file/line/message`
 - [ ] AC4: 脱敏策略：默认仅展示命中前后各 2 个字符（可配置），中间用 `***` 替代
 - [ ] AC5: 退出码约定：`0`=成功且未达阻断阈值；`2`=达到阻断阈值（用于 git hook 阻断）；`1`=运行错误
 - [ ] AC6: 提供快速扫描默认值以适配 `git commit`：支持只扫 diff 输入、跳过二进制/超大文件，并默认关闭高成本规则：`entropy`（字符串熵检测）、`generic_high_entropy`（无前缀的高随机度 token/长串检测）。
+- [ ] AC7: 配置校验严格模式：遇到未知字段默认报错并退出（可选未来增加 `--lenient` 放宽）。
 
 ## 3. 背景与上下文 (Context & Background)
 - 目标是全栈适配（Android/Backend/Web/iOS），因此扫描器应以“文本 + 规则”为核心，避免与具体语言绑定。

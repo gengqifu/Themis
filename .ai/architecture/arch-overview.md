@@ -2,7 +2,7 @@
 title: "Themis 项目架构概览"
 version: "1.0.0"
 last_updated: "2026-01-30"
-status: "草稿"
+status: "已批准"
 ---
 
 ## 1. 引言与目标 (Introduction & Goals)
