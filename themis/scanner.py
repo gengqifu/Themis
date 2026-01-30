@@ -89,3 +89,27 @@ def scan_paths(
         else:
             findings.extend(scan_file(path, rules=rules, max_file_size_bytes=max_file_size_bytes))
     return findings
+
+
+def scan_with_mode(
+    paths: Iterable[str],
+    *,
+    rules: Sequence[Dict],
+    max_file_size_bytes: int,
+    mode: str,
+    only_lines: Dict[str, List[int]] | None = None,
+) -> List[Dict]:
+    if mode == "full":
+        return scan_paths(
+            paths, rules=rules, max_file_size_bytes=max_file_size_bytes, only_lines=None
+        )
+    if mode == "diff":
+        return scan_paths(
+            paths,
+            rules=rules,
+            max_file_size_bytes=max_file_size_bytes,
+            only_lines=only_lines,
+        )
+    return scan_paths(
+        paths, rules=rules, max_file_size_bytes=max_file_size_bytes, only_lines=None
+    )

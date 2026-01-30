@@ -56,7 +56,7 @@ related_prd_feature: "../index.md"
 - [x] 7. **测试**：baseline 路径相对仓库根目录解析与覆盖写入
 - [x] 8. **实现**：diff 输入解析与数据结构
 - [x] 9. **实现**：`diff` 模式扫描（只读指定行）
-- [ ] 10. **实现**：`full` 模式开关
+- [x] 10. **实现**：`full` 模式开关
 - [ ] 11. **实现**：路径豁免与注释豁免
 - [ ] 12. **实现**：baseline schema 与过滤逻辑（仅指纹）
 - [ ] 13. **实现**：diff 来源选择（`CI_MERGE_REQUEST_DIFF_URL` / `--diff-file`）
@@ -82,6 +82,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 完成 baseline 路径解析测试（相对仓库根）。
 - 2026-01-30 - AI: 增加 diff 输入构建辅助（diff -> 行号映射）。
 - 2026-01-30 - AI: 实现 diff-only 文件扫描（仅扫描指定行，仍跳过二进制/大文件）。
+- 2026-01-30 - AI: 增加扫描模式开关（full/diff）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
@@ -95,3 +96,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS002 任务 5.7（baseline 路径解析测试）。
 - 用户: 执行 SS002 任务 5.8（diff 输入解析与数据结构实现）。
 - 用户: 执行 SS002 任务 5.9（diff 模式扫描实现）。
+- 用户: 执行 SS002 任务 5.10（full 模式开关实现）。
