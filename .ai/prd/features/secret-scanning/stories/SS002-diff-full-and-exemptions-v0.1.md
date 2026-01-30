@@ -21,7 +21,7 @@ related_prd_feature: "../index.md"
 - [x] AC1.1: diff 解析仅识别 unified diff `@@` hunk，并只对 `+` 行计为新增；忽略 diff 头部（`+++ / ---`）
 - [x] AC1.2: MR diff 来源：优先从 `CI_MERGE_REQUEST_DIFF_URL` 拉取；允许 `--diff-file` 指定本地 diff 文件（用于本地复现）
 - [x] AC2: 支持 `full` 模式：扫描指定目录/仓库中的全部文本文件（仍需遵守大小/二进制过滤）
-- [ ] AC3: 支持路径豁免（glob，匹配**仓库相对路径**，基于仓库根目录；默认区分大小写）
+- [x] AC3: 支持路径豁免（glob，匹配**仓库相对路径**，基于仓库根目录；默认区分大小写）
 - [ ] AC4: 支持行内注释豁免（例如 `themis:ignore <RULE_ID>` 或 `themis:ignore`；允许指定 RULE_ID 精确豁免）
 - [ ] AC4.1: 允许“前一行注释”豁免（**仅紧邻上一行**包含 `themis:ignore` 标记即豁免下一行命中）
 - [ ] AC4.2: 注释豁免优先级：`themis:ignore <RULE_ID>` 仅豁免该规则；`themis:ignore` 豁免整行所有规则
