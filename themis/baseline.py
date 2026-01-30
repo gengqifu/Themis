@@ -36,6 +36,13 @@ def write_baseline(path: Path, items: Iterable[Dict]) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def resolve_baseline_path(path: str, *, repo_root: str) -> Path:
+    p = Path(path)
+    if p.is_absolute():
+        return p
+    return Path(repo_root) / p
+
+
 def filter_findings(findings: Iterable[Dict], baseline_items: Iterable[Dict]) -> List[Dict]:
     baseline_set = {
         (i.get("rule_id"), i.get("file"), i.get("line"), i.get("hash"))
