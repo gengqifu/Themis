@@ -8,10 +8,18 @@ from typing import Dict, Iterable, List, Sequence
 from .file_utils import is_binary_file, is_too_large
 
 
-def scan_text(text: str, *, rules: Sequence[Dict], file_path: str = "<memory>") -> List[Dict]:
+def scan_text(
+    text: str,
+    *,
+    rules: Sequence[Dict],
+    file_path: str = "<memory>",
+    only_lines: List[int] | None = None,
+) -> List[Dict]:
     findings: List[Dict] = []
     lines = text.splitlines()
     for idx, line in enumerate(lines, start=1):
+        if only_lines is not None and idx not in only_lines:
+            continue
         for rule in rules:
             if not rule.get("enabled", True):
                 continue
@@ -60,8 +68,22 @@ def scan_paths(
     *,
     rules: Sequence[Dict],
     max_file_size_bytes: int,
+    only_lines: Dict[str, List[int]] | None = None,
 ) -> List[Dict]:
     findings: List[Dict] = []
     for path in _iter_files(paths):
-        findings.extend(scan_file(path, rules=rules, max_file_size_bytes=max_file_size_bytes))
+        if only_lines is not None:
+            rel = str(path)
+            if rel not in only_lines:
+                continue
+            findings.extend(
+                scan_text(
+                    path.read_text(encoding="utf-8", errors="ignore"),
+                    rules=rules,
+                    file_path=rel,
+                    only_lines=only_lines[rel],
+                )
+            )
+        else:
+            findings.extend(scan_file(path, rules=rules, max_file_size_bytes=max_file_size_bytes))
     return findings
