@@ -28,7 +28,9 @@ def load_baseline(path: Path) -> List[Dict]:
     if not path.exists():
         return []
     data = json.loads(path.read_text(encoding="utf-8"))
-    return data.get("items", [])
+    if not isinstance(data, dict) or "items" not in data or not isinstance(data["items"], list):
+        raise ValueError("baseline schema invalid")
+    return data["items"]
 
 
 def write_baseline(path: Path, items: Iterable[Dict]) -> None:

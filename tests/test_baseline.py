@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from themis.baseline import (
     build_fingerprint,
     filter_findings,
@@ -27,6 +29,13 @@ def test_baseline_write_and_load(tmp_path: Path) -> None:
     write_baseline(path, items)
     loaded = load_baseline(path)
     assert loaded == items
+
+
+def test_baseline_schema_invalid(tmp_path: Path) -> None:
+    path = tmp_path / "bad.json"
+    path.write_text('{"items": {}}', encoding="utf-8")
+    with pytest.raises(ValueError):
+        load_baseline(path)
 
 
 def test_resolve_baseline_path(tmp_path: Path) -> None:
