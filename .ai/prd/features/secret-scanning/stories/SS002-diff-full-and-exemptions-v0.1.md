@@ -80,6 +80,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 完成 diff 解析实现并提供 repo_root 路径解析辅助。
 - 2026-01-30 - AI: 完成 diff 来源选择测试（CI URL 优先，其次 diff 文件）。
 - 2026-01-30 - AI: 完成 baseline 路径解析测试（相对仓库根）。
+- 2026-01-30 - AI: 增加 diff 输入构建辅助（diff -> 行号映射）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
@@ -91,3 +92,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS002 任务 5.6（diff 解析实现）。
 - 用户: 指明执行任务 6（diff 来源选择逻辑）。
 - 用户: 执行 SS002 任务 5.7（baseline 路径解析测试）。
+- 用户: 执行 SS002 任务 5.8（diff 输入解析与数据结构实现）。
