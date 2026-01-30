@@ -76,6 +76,8 @@ def scan_paths(
             rel = str(path)
             if rel not in only_lines:
                 continue
+            if is_too_large(path, max_file_size_bytes=max_file_size_bytes) or is_binary_file(path):
+                continue
             findings.extend(
                 scan_text(
                     path.read_text(encoding="utf-8", errors="ignore"),

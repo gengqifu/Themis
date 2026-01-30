@@ -78,3 +78,24 @@ def test_allowlist_comment_line_and_prev_line() -> None:
     assert not is_ignored_by_comment(
         "key = 1  # themis:ignore R2", None, rule_id="R1"
     )
+
+
+def test_scan_paths_only_lines(tmp_path) -> None:
+    f = tmp_path / "a.txt"
+    f.write_text("line1\nSECRET1\nSECRET2\n", encoding="utf-8")
+    rules = [
+        {
+            "id": "SECRET",
+            "severity": "high",
+            "type": "regex",
+            "pattern": r"SECRET\d+",
+            "message": "found",
+            "enabled": True,
+        }
+    ]
+    only_lines = {str(f): [2]}
+    findings = scan_paths(
+        [str(tmp_path)], rules=rules, max_file_size_bytes=1000, only_lines=only_lines
+    )
+    assert len(findings) == 1
+    assert findings[0]["line"] == 2
