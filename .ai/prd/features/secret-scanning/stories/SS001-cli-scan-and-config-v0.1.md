@@ -17,13 +17,13 @@ related_prd_feature: "../index.md"
 **以便于** 在代码合并前发现并处理潜在泄露
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 提供可执行入口（例如 `python -m themis` 或 `themis`），支持指定扫描路径/文件列表
-- [ ] AC2: 支持加载仓库内配置文件（默认按 `--platform` 选择 `.themis.android.yml/.themis.ios.yml/.themis.backend.yml/.themis.web.yml`，也可用 `--config` 覆盖）
+- [ ] AC1: 提供 CLI 入口 `themis scan`（兼容 `python -m themis scan`），支持指定扫描路径/文件列表
+- [ ] AC2: 配置查找顺序：`--config` > `--platform`(`.themis.<platform>.yml`) > 内置默认
 - [ ] AC2.1: 零配置可用：当配置文件不存在时，仍可使用内置默认规则运行（开箱即用）
-- [ ] AC3: 执行扫描后输出结果（至少 `text` 与 `json` 两种之一可选），包含 `rule_id/severity/file/line/message`
-- [ ] AC4: 默认对命中内容进行脱敏展示（不在输出中泄露完整 secret）
-- [ ] AC5: 扫描返回确定性的退出码约定：运行成功且未达到阻断阈值返回 `0`；达到阻断阈值返回非 `0`（用于 git hook 阻断 commit）；运行错误返回非 `0`
-- [ ] AC6: 提供快速扫描默认值以适配 `git commit`：支持只扫 diff 输入、跳过二进制/超大文件、并可关闭高成本规则（例如熵检测）
+- [ ] AC3: 输出格式支持 `text` 与 `json`（可选），字段最少包含 `rule_id/severity/file/line/message`
+- [ ] AC4: 脱敏策略：默认仅展示命中前后各 2–4 个字符（具体值可配置），中间用 `***` 替代
+- [ ] AC5: 退出码约定：`0`=成功且未达阻断阈值；`2`=达到阻断阈值（用于 git hook 阻断）；`1`=运行错误
+- [ ] AC6: 提供快速扫描默认值以适配 `git commit`：支持只扫 diff 输入、跳过二进制/超大文件，并默认关闭高成本规则：`entropy`（字符串熵检测）、`generic_high_entropy`（无前缀的高随机度 token/长串检测）。
 
 ## 3. 背景与上下文 (Context & Background)
 - 目标是全栈适配（Android/Backend/Web/iOS），因此扫描器应以“文本 + 规则”为核心，避免与具体语言绑定。

@@ -19,8 +19,8 @@ related_prd_feature: "../index.md"
 ## 2. 验收标准 (Acceptance Criteria - AC)
 - [ ] AC1: 提供一种“安装/启用 hook”的方式（例如 `python -m themis install-hooks` 或脚本），将 hook 安装到 `.git/hooks/`
 - [ ] AC1.1: 一键接入：在无额外手工配置的情况下，单条命令即可完成接入（安装 hook + 使用默认规则/默认配置）
-- [ ] AC2: Hook 在 `git commit` 阶段的 `pre-commit` 触发，执行 `themis scan --platform <platform>`（默认对 `git diff --cached` 的 staged 变更做 diff 扫描）
-- [ ] AC3: 当命中达到阻断阈值（例如 `severity >= critical`）时，阻断提交并给出可操作的提示（包含规则、文件、行号、脱敏预览）
+- [ ] AC2: Hook 固定在 `pre-commit` 阶段触发，执行 `themis scan --platform <platform>`（默认对 `git diff --cached -U0` 的 staged 变更做 diff 扫描）
+- [ ] AC3: 当命中达到阻断阈值（`severity >= critical`）时，阻断提交并给出可操作的提示（包含规则、文件、行号、脱敏预览）
 - [ ] AC4: 支持豁免机制（路径/注释/baseline）在 hook 场景同样生效
 - [ ] AC5: Hook 不修改用户代码，不产生网络依赖（除非明确启用）
 - [ ] AC6: Hook 性能要求：只处理 staged diff 的新增/修改行；跳过二进制与超大文件；不应明显拖慢 commit（待量化）

@@ -17,12 +17,12 @@ related_prd_feature: "../index.md"
 **以便于** 降低误报与噪声，同时保留全量扫描能力
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 支持 `diff` 模式：仅扫描新增/修改的行（输入可以是：文件+行号列表、或标准 unified diff；commit 场景来自 `git diff --cached -U0`，MR 场景来自 GitLab CI 的 MR diff）
-- [ ] AC2: 支持 `full` 模式：扫描指定目录/仓库中的全部文本文件
-- [ ] AC3: 支持路径豁免（glob）
+- [ ] AC1: 支持 `diff` 模式：仅扫描新增/修改的行（输入为 `file -> line_numbers[]` 或标准 unified diff；commit 场景来自 `git diff --cached -U0`，MR 场景来自 GitLab CI 的 MR diff）
+- [ ] AC2: 支持 `full` 模式：扫描指定目录/仓库中的全部文本文件（仍需遵守大小/二进制过滤）
+- [ ] AC3: 支持路径豁免（glob，匹配文件路径）
 - [ ] AC4: 支持行内注释豁免（例如 `themis:ignore <RULE_ID>` 或 `themis:ignore`）
-- [ ] AC4.1: 允许“前一行注释”豁免（例如上一行包含 `themis:ignore` 标记）
-- [ ] AC5: 支持 baseline：把已知命中记录到 baseline 文件并在后续运行中忽略（仅对相同指纹/位置生效，具体指纹算法需定义）
+- [ ] AC4.1: 允许“前一行注释”豁免（上一行包含 `themis:ignore` 标记即豁免下一行命中）
+- [ ] AC5: 支持 baseline：把已知命中记录到 baseline 文件并在后续运行中忽略（仅对相同指纹/位置生效，默认不存原文）
 
 ## 3. 背景与上下文 (Context & Background)
 - 你明确表示仓库可能存在示例 token/mock key，需要可控豁免机制。

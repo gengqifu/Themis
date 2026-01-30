@@ -17,10 +17,10 @@ related_prd_feature: "../index.md"
 **以便于** 让 reviewer 看到明确的风险与建议（当前不阻断合并）
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 使用 GitLab CI 在 MR 事件触发（opened/updated）时运行扫描
-- [ ] AC2: 从 GitLab CI 获取 MR diff（或从 GitLab API 拉取 diff），并使用 `diff` 模式扫描
-- [ ] AC3: 将扫描结果回写到 MR 的 discussion（仅 discussion）
-- [ ] AC4: 回写内容默认脱敏，避免泄露
+- [ ] AC1: 使用 GitLab CI 的 MR pipeline 触发扫描（opened/updated）
+- [ ] AC2: 获取 MR diff（CI 提供的 MR diff 或 GitLab API），并使用 `diff` 模式扫描
+- [ ] AC3: 将扫描结果回写到 MR 的 **discussion**（仅 discussion），并更新同一条 discussion
+- [ ] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）
 
 ## 3. 背景与上下文 (Context & Background)
 - 使用 GitLab CI 在 MR 阶段触发扫描；当前未开通“阻断 MR 合并”的能力，因此本 Story 的目标是“回写 comment/讨论”，不做阻断。
@@ -30,7 +30,7 @@ related_prd_feature: "../index.md"
 ### 4.1. 提议的解决方案/方法 (Proposed Solution / Approach)
 候选集成方式（已确定使用 GitLab CI）：
 - 在 CI job 中运行 `themis scan --diff`（基于 CI 提供的 MR diff 信息或 API 拉取）
-- 使用 GitLab API 回写 MR discussion（避免重复评论，建议更新同一条 discussion）
+- 使用 GitLab API 回写 MR discussion（固定更新同一条 discussion，避免重复）
 
 ### 4.2. 安全性考量
 - GitLab token 权限最小化：只需读取 MR diff + 写入 MR 评论/状态
