@@ -11,6 +11,19 @@ from .rules import default_rules
 ALLOWED_TOP_LEVEL_KEYS = {"scan", "rules", "allowlist", "baseline", "output"}
 
 
+def _validate_schema(data: Dict[str, Any]) -> None:
+    if "scan" in data and not isinstance(data["scan"], dict):
+        raise ConfigError("scan 必须为对象")
+    if "output" in data and not isinstance(data["output"], dict):
+        raise ConfigError("output 必须为对象")
+    if "allowlist" in data and not isinstance(data["allowlist"], dict):
+        raise ConfigError("allowlist 必须为对象")
+    if "baseline" in data and not isinstance(data["baseline"], str):
+        raise ConfigError("baseline 必须为字符串路径")
+    if "rules" in data and not isinstance(data["rules"], list):
+        raise ConfigError("rules 必须为列表")
+
+
 def _load_yaml(path: Path) -> Dict[str, Any]:
     try:
         raw = path.read_text(encoding="utf-8")
@@ -24,6 +37,7 @@ def _load_yaml(path: Path) -> Dict[str, Any]:
     unknown = set(data.keys()) - ALLOWED_TOP_LEVEL_KEYS
     if unknown:
         raise ConfigError(f"未知配置字段: {', '.join(sorted(unknown))}")
+    _validate_schema(data)
     return data
 
 

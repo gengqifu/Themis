@@ -36,3 +36,10 @@ def test_unknown_fields_raise(tmp_path: Path) -> None:
     write_yaml(cfg_path, "unknown: 1\n")
     with pytest.raises(ConfigError):
         load_config(config_path=str(cfg_path), cwd=str(tmp_path))
+
+
+def test_invalid_types_raise(tmp_path: Path) -> None:
+    cfg_path = tmp_path / "bad_types.yml"
+    write_yaml(cfg_path, "scan: 1\noutput: []\nrules: {}\n")
+    with pytest.raises(ConfigError):
+        load_config(config_path=str(cfg_path), cwd=str(tmp_path))
