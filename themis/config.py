@@ -10,6 +10,22 @@ from .rules import default_rules
 
 ALLOWED_TOP_LEVEL_KEYS = {"scan", "rules", "allowlist", "baseline", "output"}
 
+DEFAULT_CONFIG: Dict[str, Any] = {
+    "scan": {
+        "mode": "diff",
+        "max_file_size_bytes": 1024 * 1024,
+    },
+    "output": {
+        "format": "text",
+        "redact_keep": 2,
+    },
+    "allowlist": {
+        "paths": [],
+        "regexes": [],
+        "line_markers": ["themis:ignore"],
+    },
+}
+
 
 def _validate_schema(data: Dict[str, Any]) -> None:
     if "scan" in data and not isinstance(data["scan"], dict):
@@ -58,6 +74,11 @@ def load_config(
             cfg_file = base_dir / f".themis.{platform}.yml"
             cfg = _load_yaml(cfg_file) if cfg_file.exists() else {}
 
-    if "rules" not in cfg:
-        cfg["rules"] = default_rules()
-    return cfg
+    merged: Dict[str, Any] = {**DEFAULT_CONFIG, **cfg}
+    for key in ("scan", "output", "allowlist"):
+        if key in cfg and isinstance(cfg[key], dict):
+            merged[key] = {**DEFAULT_CONFIG[key], **cfg[key]}
+
+    if "rules" not in merged:
+        merged["rules"] = default_rules()
+    return merged

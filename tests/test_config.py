@@ -31,6 +31,13 @@ def test_load_config_missing_uses_default_rules(tmp_path: Path) -> None:
     assert len(cfg["rules"]) > 0
 
 
+def test_defaults_present(tmp_path: Path) -> None:
+    cfg = load_config(platform="android", cwd=str(tmp_path))
+    assert cfg["scan"]["mode"] == "diff"
+    assert isinstance(cfg["allowlist"]["paths"], list)
+    assert cfg["output"]["format"] == "text"
+
+
 def test_unknown_fields_raise(tmp_path: Path) -> None:
     cfg_path = tmp_path / "bad.yml"
     write_yaml(cfg_path, "unknown: 1\n")
