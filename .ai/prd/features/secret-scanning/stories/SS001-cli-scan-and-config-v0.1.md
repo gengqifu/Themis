@@ -17,11 +17,11 @@ related_prd_feature: "../index.md"
 **以便于** 在代码合并前发现并处理潜在泄露
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 提供 CLI 入口 `themis scan`（兼容 `python -m themis scan`），支持指定扫描路径/文件列表
+- [ ] AC1: 提供 CLI 入口 `themis scan`（兼容 `python -m themis scan`），支持指定扫描路径/文件列表；未指定路径时默认扫描当前工作目录
 - [ ] AC2: 配置查找顺序：`--config` > `--platform`(`.themis.<platform>.yml`) > 内置默认
 - [ ] AC2.1: 零配置可用：当配置文件不存在时，仍可使用内置默认规则运行（开箱即用）
-- [ ] AC3: 输出格式支持 `text` 与 `json`（可选），字段最少包含 `rule_id/severity/file/line/message`
-- [ ] AC4: 脱敏策略：默认仅展示命中前后各 2–4 个字符（具体值可配置），中间用 `***` 替代
+- [ ] AC3: 输出格式支持 `text` 与 `json`（可选）；`json` 输出最小结构为 `{ "findings": [...] }`，每个 finding 至少包含 `rule_id/severity/file/line/message`
+- [ ] AC4: 脱敏策略：默认仅展示命中前后各 2 个字符（可配置），中间用 `***` 替代
 - [ ] AC5: 退出码约定：`0`=成功且未达阻断阈值；`2`=达到阻断阈值（用于 git hook 阻断）；`1`=运行错误
 - [ ] AC6: 提供快速扫描默认值以适配 `git commit`：支持只扫 diff 输入、跳过二进制/超大文件，并默认关闭高成本规则：`entropy`（字符串熵检测）、`generic_high_entropy`（无前缀的高随机度 token/长串检测）。
 
@@ -58,10 +58,10 @@ related_prd_feature: "../index.md"
 - [ ] 建立 Python 包骨架与 CLI 入口（最小可运行）
 - [ ] 编写配置加载测试（默认路径/参数覆盖/错误提示）
 - [ ] 实现配置加载与 schema 校验
-- [ ] 编写扫描器核心测试（给定文本 -> 命中规则 -> 返回位置）
+- [ ] 编写扫描器核心测试（规则匹配 -> 命中；行号定位正确）
 - [ ] 实现逐文件/逐行扫描与结果结构
-- [ ] 编写输出格式测试（text/json；脱敏）
-- [ ] 实现输出与退出码约定
+- [ ] 编写输出格式测试（text/json；脱敏默认前后 2 字符）
+- [ ] 编写退出码测试（0/1/2 对应成功/错误/阻断）
 - [ ] 更新 Story 的 Development Notes & Log
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
