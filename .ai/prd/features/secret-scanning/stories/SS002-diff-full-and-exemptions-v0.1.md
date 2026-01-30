@@ -26,7 +26,7 @@ related_prd_feature: "../index.md"
 - [x] AC4.1: 允许“前一行注释”豁免（**仅紧邻上一行**包含 `themis:ignore` 标记即豁免下一行命中）
 - [x] AC4.2: 注释豁免优先级：`themis:ignore <RULE_ID>` 仅豁免该规则；`themis:ignore` 豁免整行所有规则
 - [x] AC5: 支持 baseline：把已知命中记录到 baseline 文件并在后续运行中忽略（仅对相同指纹/位置生效，默认不存原文）
-- [ ] AC5.1: baseline 文件格式为 `json`，最小结构 `{ "items": [ { "rule_id","file","line","hash" } ] }`
+- [x] AC5.1: baseline 文件格式为 `json`，最小结构 `{ "items": [ { "rule_id","file","line","hash" } ] }`
 - [ ] AC5.2: baseline 指纹为 `rule_id + file + line + normalized_match_hash`（normalized_match_hash = 去空白后的匹配文本 SHA256，默认不做大小写折叠）
 - [ ] AC5.3: baseline 路径支持相对仓库根目录；生成 baseline 时覆盖写入（避免合并复杂度）
 
