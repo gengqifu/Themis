@@ -1,5 +1,7 @@
 from typing import Any, Dict, List
 
+SEVERITY_ORDER = {"low": 0, "medium": 1, "high": 2, "critical": 3}
+
 
 def default_rules() -> List[Dict[str, Any]]:
     return [
