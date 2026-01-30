@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import os
 from typing import List, Optional
 
 from .config import load_config
+from .diff_source import choose_diff_source, read_diff_text
+from .diff_utils import build_lines_map_from_diff
 from .exit_codes import compute_exit_code
 from .report import to_json, to_text
 from .scanner import scan_paths
@@ -20,16 +23,27 @@ def build_parser() -> argparse.ArgumentParser:
     scan.add_argument(
         "--format", choices=["text", "json"], default="text", help="output format"
     )
+    scan.add_argument("--diff-file", required=False, help="unified diff file path")
     return parser
 
 
 def cmd_scan(args: argparse.Namespace) -> int:
     cfg = load_config(config_path=args.config, platform=args.platform, cwd=None)
     paths = args.paths if args.paths else ["."]
+    only_lines = None
+    if cfg.get("scan", {}).get("mode") == "diff":
+        source = choose_diff_source(
+            ci_merge_request_diff_url=os.environ.get("CI_MERGE_REQUEST_DIFF_URL"),
+            diff_file=args.diff_file,
+        )
+        diff_text = read_diff_text(source)
+        only_lines = build_lines_map_from_diff(diff_text, repo_root=os.getcwd())
     findings = scan_paths(
         paths,
         rules=cfg.get("rules", []),
         max_file_size_bytes=cfg.get("scan", {}).get("max_file_size_bytes", 0),
+        only_lines=only_lines,
+        allowlist_paths=cfg.get("allowlist", {}).get("paths", []),
     )
     if args.format == "json":
         print(to_json(findings, redact_keep=cfg.get("output", {}).get("redact_keep", 2)))

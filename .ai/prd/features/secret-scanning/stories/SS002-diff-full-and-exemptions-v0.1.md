@@ -17,9 +17,9 @@ related_prd_feature: "../index.md"
 **以便于** 降低误报与噪声，同时保留全量扫描能力
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 支持 `diff` 模式：仅扫描新增/修改的行（输入为 `file -> line_numbers[]` 或标准 unified diff；commit 场景来自 `git diff --cached -U0`，MR 场景来自 GitLab CI 的 MR diff）
-- [ ] AC1.1: diff 解析仅识别 unified diff `@@` hunk，并只对 `+` 行计为新增；忽略 diff 头部（`+++ / ---`）
-- [ ] AC1.2: MR diff 来源：优先从 `CI_MERGE_REQUEST_DIFF_URL` 拉取；允许 `--diff-file` 指定本地 diff 文件（用于本地复现）
+- [x] AC1: 支持 `diff` 模式：仅扫描新增/修改的行（输入为 `file -> line_numbers[]` 或标准 unified diff；commit 场景来自 `git diff --cached -U0`，MR 场景来自 GitLab CI 的 MR diff）
+- [x] AC1.1: diff 解析仅识别 unified diff `@@` hunk，并只对 `+` 行计为新增；忽略 diff 头部（`+++ / ---`）
+- [x] AC1.2: MR diff 来源：优先从 `CI_MERGE_REQUEST_DIFF_URL` 拉取；允许 `--diff-file` 指定本地 diff 文件（用于本地复现）
 - [ ] AC2: 支持 `full` 模式：扫描指定目录/仓库中的全部文本文件（仍需遵守大小/二进制过滤）
 - [ ] AC3: 支持路径豁免（glob，匹配**仓库相对路径**，基于仓库根目录；默认区分大小写）
 - [ ] AC4: 支持行内注释豁免（例如 `themis:ignore <RULE_ID>` 或 `themis:ignore`；允许指定 RULE_ID 精确豁免）
@@ -88,6 +88,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 实现 diff 来源读取（file 优先；URL 阶段暂未实现）。
 - 2026-01-30 - AI: 基线文件覆盖写入辅助（write_baseline_overwrite）。
 - 2026-01-30 - AI: 重构扫描流程（统一路径豁免判断）。
+- 2026-01-30 - AI: CLI 已接入 diff 输入（`--diff-file`），可触发 diff-only 扫描。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
@@ -107,3 +108,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS002 任务 5.13（diff 来源选择实现）。
 - 用户: 执行 SS002 任务 5.14（baseline 路径解析与覆盖写入）。
 - 用户: 执行 SS002 任务 5.15（重构简化输入管道与豁免判断）。
+- 用户: 要求补全 AC1 端到端接入（diff 输入 -> CLI 扫描）。

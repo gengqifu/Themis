@@ -12,7 +12,7 @@ ALLOWED_TOP_LEVEL_KEYS = {"scan", "rules", "allowlist", "baseline", "output"}
 
 DEFAULT_CONFIG: Dict[str, Any] = {
     "scan": {
-        "mode": "diff",
+        "mode": "full",
         "max_file_size_bytes": 1024 * 1024,
     },
     "output": {
