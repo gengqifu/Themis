@@ -2,12 +2,12 @@
 title: "SS002 - Diff/Full 扫描模式与 baseline/注释豁免"
 id: "SS002"
 target_version: "v0.1"
-status: "已批准"
+status: "进行中"
 owner: "AI 助手"
 story_points: "TBD"
 jira_id: ""
 created_date: "2026-01-29"
-last_updated: "2026-01-29"
+last_updated: "2026-01-30"
 related_prd_feature: "../index.md"
 ---
 
@@ -47,7 +47,7 @@ related_prd_feature: "../index.md"
   - 在命中行同一行内出现 marker 即豁免；允许前一行注释（已确认）
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] 1. **测试**：diff 输入解析（unified diff -> file/line 列表）
+- [x] 1. **测试**：diff 输入解析（unified diff -> file/line 列表）
 - [ ] 2. **测试**：`diff` 模式仅扫描新增/修改行
 - [ ] 3. **测试**：`full` 模式扫描（仍跳过二进制/大文件）
 - [ ] 4. **测试**：路径豁免（glob）与行内/前一行注释豁免
@@ -72,6 +72,8 @@ related_prd_feature: "../index.md"
 
 ## 8. 开发笔记与日志 (Development Notes & Log)
 - 2026-01-29 - AI: Story 草稿，待确认注释豁免规则（同一行/上一行/块注释）与 baseline 指纹策略。
+- 2026-01-30 - AI: 完成 unified diff 解析测试（file -> line 列表）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
+- 用户: 开始 SS002 开发，执行任务 5.1（diff 解析测试）。
