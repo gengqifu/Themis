@@ -49,7 +49,7 @@ related_prd_feature: "../index.md"
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
 - [x] 1. **测试**：diff 输入解析（unified diff -> file/line 列表）
 - [x] 2. **测试**：`diff` 模式仅扫描新增/修改行
-- [ ] 3. **测试**：`full` 模式扫描（仍跳过二进制/大文件）
+- [x] 3. **测试**：`full` 模式扫描（仍跳过二进制/大文件）
 - [ ] 4. **测试**：路径豁免（glob）与行内/前一行注释豁免
 - [ ] 5. **测试**：baseline 过滤（相同指纹/位置命中应忽略）
 - [ ] 6. **测试**：diff 来源（`CI_MERGE_REQUEST_DIFF_URL` / `--diff-file`）选择逻辑
@@ -74,8 +74,10 @@ related_prd_feature: "../index.md"
 - 2026-01-29 - AI: Story 草稿，待确认注释豁免规则（同一行/上一行/块注释）与 baseline 指纹策略。
 - 2026-01-30 - AI: 完成 unified diff 解析测试（file -> line 列表）。
 - 2026-01-30 - AI: 完成 diff-only 行过滤测试（只扫描新增/修改行）。
+- 2026-01-30 - AI: 完成 full 模式扫描测试（跳过二进制/大文件）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
 - 用户: 开始 SS002 开发，执行任务 5.1（diff 解析测试）。
 - 用户: 执行 SS002 任务 5.2（diff-only 行过滤测试）。
+- 用户: 执行 SS002 任务 5.3（full 模式扫描测试）。
