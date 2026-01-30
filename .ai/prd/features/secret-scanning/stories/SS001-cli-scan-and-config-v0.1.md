@@ -65,7 +65,7 @@ related_prd_feature: "../index.md"
 - [x] 7. **实现**：CLI 入口提供 `themis` 可执行脚本，并兼容 `python -m themis`
 - [x] 8. **实现**：配置加载与 schema 校验
 - [x] 9. **实现**：配置 schema 明确字段与类型（`scan/rules/output` 等）
-- [ ] 10. **实现**：扫描器（逐文件/逐行扫描 + 结果结构）
+- [x] 10. **实现**：扫描器（逐文件/逐行扫描 + 结果结构）
 - [ ] 11. **实现**：输出格式化与退出码约定
 - [ ] 12. **实现**：默认规则集归档到独立函数/模块，便于测试断言
 - [ ] 13. **重构**：清理重复逻辑，简化接口
@@ -89,6 +89,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 增加 `bin/themis` 可执行脚本，转发到 `python -m themis`。
 - 2026-01-30 - AI: 增加配置 schema 校验（scan/output/allowlist/rules/baseline 类型）。
 - 2026-01-30 - AI: 增加配置默认字段与类型（scan/output/allowlist 默认结构）。
+- 2026-01-30 - AI: 实现文件扫描（目录遍历 + 二进制/大文件过滤）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。
@@ -101,3 +102,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS001 任务 5.7（添加 `themis` 可执行脚本）。
 - 用户: 执行 SS001 任务 5.8（配置加载与 schema 校验实现）。
 - 用户: 执行 SS001 任务 5.9（明确配置 schema 字段与类型）。
+- 用户: 执行 SS001 任务 5.10（实现扫描器文件扫描）。
