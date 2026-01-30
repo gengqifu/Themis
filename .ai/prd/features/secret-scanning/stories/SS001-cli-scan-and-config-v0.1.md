@@ -68,7 +68,7 @@ related_prd_feature: "../index.md"
 - [x] 10. **实现**：扫描器（逐文件/逐行扫描 + 结果结构）
 - [x] 11. **实现**：输出格式化与退出码约定
 - [x] 12. **实现**：默认规则集归档到独立函数/模块，便于测试断言
-- [ ] 13. **重构**：清理重复逻辑，简化接口
+- [x] 13. **重构**：清理重复逻辑，简化接口
 - [ ] 14. 更新 Story 的 Development Notes & Log
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
@@ -92,6 +92,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 实现文件扫描（目录遍历 + 二进制/大文件过滤）。
 - 2026-01-30 - AI: 实现 CLI 输出格式化与退出码联动（text/json）。
 - 2026-01-30 - AI: 默认规则集保持在 `themis.rules.default_rules` 并补充测试断言。
+- 2026-01-30 - AI: 重构扫描流程（合并过滤条件，减少分支）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。
@@ -107,3 +108,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS001 任务 5.10（实现扫描器文件扫描）。
 - 用户: 执行 SS001 任务 5.11（输出格式化与退出码约定实现）。
 - 用户: 执行 SS001 任务 5.12（默认规则归档与测试）。
+- 用户: 执行 SS001 任务 5.13（重构清理重复逻辑）。

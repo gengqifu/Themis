@@ -35,9 +35,7 @@ def scan_text(text: str, *, rules: Sequence[Dict], file_path: str = "<memory>") 
 
 
 def scan_file(path: Path, *, rules: Sequence[Dict], max_file_size_bytes: int) -> List[Dict]:
-    if is_too_large(path, max_file_size_bytes=max_file_size_bytes):
-        return []
-    if is_binary_file(path):
+    if is_too_large(path, max_file_size_bytes=max_file_size_bytes) or is_binary_file(path):
         return []
     try:
         content = path.read_text(encoding="utf-8", errors="ignore")
