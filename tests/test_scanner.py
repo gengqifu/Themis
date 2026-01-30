@@ -61,3 +61,20 @@ def test_scan_paths_full_mode_skips_binary_and_large(tmp_path) -> None:
     )
     assert len(findings) == 1
     assert findings[0]["file"].endswith("ok.txt")
+
+
+def test_allowlist_comment_line_and_prev_line() -> None:
+    from themis.allowlist import is_ignored_by_comment
+
+    assert is_ignored_by_comment(
+        "key = 1  # themis:ignore", None, rule_id="R1"
+    )
+    assert is_ignored_by_comment(
+        "key = 1", "# themis:ignore", rule_id="R1"
+    )
+    assert is_ignored_by_comment(
+        "key = 1  # themis:ignore R1", None, rule_id="R1"
+    )
+    assert not is_ignored_by_comment(
+        "key = 1  # themis:ignore R2", None, rule_id="R1"
+    )
