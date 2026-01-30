@@ -61,7 +61,7 @@ related_prd_feature: "../index.md"
 - [x] 12. **实现**：baseline schema 与过滤逻辑（仅指纹）
 - [x] 13. **实现**：diff 来源选择（`CI_MERGE_REQUEST_DIFF_URL` / `--diff-file`）
 - [x] 14. **实现**：baseline 路径解析（相对仓库根）与覆盖写入
-- [ ] 15. **重构**：简化输入管道与豁免判断
+- [x] 15. **重构**：简化输入管道与豁免判断
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
 - 约束：diff 解析必须兼容 `git diff --cached -U0` 与 GitLab CI 的 MR diff
@@ -87,6 +87,7 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 增加 baseline schema 校验（items 必须为列表）。
 - 2026-01-30 - AI: 实现 diff 来源读取（file 优先；URL 阶段暂未实现）。
 - 2026-01-30 - AI: 基线文件覆盖写入辅助（write_baseline_overwrite）。
+- 2026-01-30 - AI: 重构扫描流程（统一路径豁免判断）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 默认只扫 MR diff，需要支持全量扫描开关；例外可通过路径/注释/baseline 豁免；MR 使用 GitLab CI 触发扫描。
@@ -105,3 +106,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS002 任务 5.12（baseline schema 与过滤逻辑实现）。
 - 用户: 执行 SS002 任务 5.13（diff 来源选择实现）。
 - 用户: 执行 SS002 任务 5.14（baseline 路径解析与覆盖写入）。
+- 用户: 执行 SS002 任务 5.15（重构简化输入管道与豁免判断）。

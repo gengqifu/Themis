@@ -74,11 +74,11 @@ def scan_paths(
 ) -> List[Dict]:
     findings: List[Dict] = []
     for path in _iter_files(paths):
+        rel = str(path)
+        if allowlist_paths and is_ignored_by_path(rel, allowlist_paths):
+            continue
         if only_lines is not None:
-            rel = str(path)
             if rel not in only_lines:
-                continue
-            if allowlist_paths and is_ignored_by_path(rel, allowlist_paths):
                 continue
             if is_too_large(path, max_file_size_bytes=max_file_size_bytes) or is_binary_file(path):
                 continue
@@ -91,9 +91,6 @@ def scan_paths(
                 )
             )
         else:
-            rel = str(path)
-            if allowlist_paths and is_ignored_by_path(rel, allowlist_paths):
-                continue
             findings.extend(scan_file(path, rules=rules, max_file_size_bytes=max_file_size_bytes))
     return findings
 
