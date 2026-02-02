@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import argparse
 import os
+from pathlib import Path
 from typing import List, Optional
 
 from .config import load_config
 from .diff_source import choose_diff_source, read_diff_text
 from .diff_utils import build_lines_map_from_diff
 from .exit_codes import compute_exit_code
+from .hooks import install_hooks, uninstall_hooks
 from .report import to_json, to_text
 from .scanner import scan_paths
 
@@ -24,6 +26,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--format", choices=["text", "json"], default="text", help="output format"
     )
     scan.add_argument("--diff-file", required=False, help="unified diff file path")
+
+    install = sub.add_parser("install-hooks", help="install git pre-commit hook")
+    install.add_argument("--platform", required=True, help="platform config to use")
+    install.add_argument(
+        "--repo-root", required=False, default=".", help="repository root"
+    )
+
+    uninstall = sub.add_parser("uninstall-hooks", help="uninstall git pre-commit hook")
+    uninstall.add_argument(
+        "--repo-root", required=False, default=".", help="repository root"
+    )
     return parser
 
 
@@ -57,6 +70,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "scan":
         return cmd_scan(args)
+    if args.command == "install-hooks":
+        install_hooks(repo_root=Path(args.repo_root), platform=args.platform)
+        return 0
+    if args.command == "uninstall-hooks":
+        uninstall_hooks(repo_root=Path(args.repo_root))
+        return 0
     return 1
 
 

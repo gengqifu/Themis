@@ -1,6 +1,12 @@
 # Themis
 用来扫描代码中潜在的安全隐患
 
+## 本地 commit hook
+- 安装：
+  - `python -m themis install-hooks --platform backend --repo-root .`
+- 卸载：
+  - `python -m themis uninstall-hooks --repo-root .`
+
 ## GitLab MR 集成示例
 - 参考 `.gitlab-ci.yml.example`，可在 `merge_request_event` 时触发扫描并回写同一条 discussion。
 - 示例默认使用 `backend` 平台配置，可按仓库类型改为 `android` / `ios` / `web`。

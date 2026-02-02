@@ -99,6 +99,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.12，新增 `tests/test_hook_performance.py`：200 行 staged diff、30 轮基线统计 `p95/p99`，验证 `p95<=1s`、`p99<=2s`。
 - 2026-02-02 - AI: 完成任务 5.13，新增 `tests/test_hook_side_effects.py`，校验 hook 执行前后工作区文件哈希一致；定向测试通过（1/1）。
 - 2026-02-02 - AI: 完成任务 5.14，新增 `tests/test_hook_offline.py`，禁网场景下运行 hook；定向测试通过（1/1）。
+- 2026-02-02 - AI: 补充 CLI 命令 `install-hooks` / `uninstall-hooks`，新增 `tests/test_cli_hooks.py` 覆盖参数透传。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
@@ -120,3 +121,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS004 任务 5.12。
 - 用户: 执行 SS004 任务 5.13。
 - 用户: 执行 SS004 任务 5.14。
+- 用户: 需要提供 commit hook 的 CLI 安装方式。
