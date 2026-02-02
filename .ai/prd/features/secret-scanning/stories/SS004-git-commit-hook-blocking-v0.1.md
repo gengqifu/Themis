@@ -21,7 +21,7 @@ related_prd_feature: "../index.md"
 - [x] AC1.1: 一键接入：在无额外手工配置的情况下，单条命令即可完成接入（安装 hook + 使用默认规则/默认配置）
 - [x] AC1.2: 幂等安装：重复执行安装命令不会重复注入 hook（同一仓库多次执行结果一致）
 - [x] AC1.3: 已有 `pre-commit` 时自动合并：保留原 hook 文件为 `.git/hooks/pre-commit.themis.bak`，新 hook 先执行 themis，再执行原 hook；themis 失败时不再执行原 hook，直接阻断；原 hook 失败时透传原退出码
-- [ ] AC1.4: 支持卸载 hook（`uninstall-hooks`）：可恢复到安装前状态（存在备份则恢复备份，不存在备份则删除 themis 注入 hook）
+- [x] AC1.4: 支持卸载 hook（`uninstall-hooks`）：可恢复到安装前状态（存在备份则恢复备份，不存在备份则删除 themis 注入 hook）
 - [ ] AC2: Hook 固定在 `pre-commit` 阶段触发，执行 `git diff --cached -U0 --no-color` 生成临时 diff 文件，并调用 `themis scan --platform <platform> --diff-file <tempfile>`
 - [ ] AC2.1: 非 git 仓库、无法读取 staged diff、或 diff 为空时：打印可读提示并按“安全失败”策略返回非 0（阻断提交）；默认不可配置为放行
 - [ ] AC3: 当命中达到阻断阈值（默认 `severity >= critical`）时，阻断提交并给出可操作的提示（包含规则、文件、行号、脱敏预览）
