@@ -57,7 +57,7 @@ related_prd_feature: "../index.md"
 - 误报导致阻断：依赖规则质量与豁免机制；建议支持 `--no-verify` 绕过但记录提示
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] 1. **测试**：`install-hooks` 首次安装与幂等安装（重复安装不重复注入）
+- [x] 1. **测试**：`install-hooks` 首次安装与幂等安装（重复安装不重复注入）
 - [ ] 2. **测试**：已有 `pre-commit` 时的自动合并策略（备份命名、执行顺序、失败传播）
 - [ ] 3. **测试**：`git diff --cached -U0 --no-color` 生成 diff-file 并传给 `themis scan --diff-file`
 - [ ] 4. **测试**：非 git 仓库 / staged diff 获取失败 / 空 diff 的安全失败路径
@@ -85,6 +85,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 进一步收敛验收口径：补充 hook 失败短路与退出码透传、空 diff 默认阻断不可配置放行、性能基线环境与采样次数。
 - 2026-02-02 - AI: 补充 AC1.4，与任务中的 `uninstall-hooks` 对齐，避免“有任务无验收”歧义。
 - 2026-02-02 - AI: 补充测试任务 13/14，覆盖“无代码副作用”和“离线可运行”两个 AC5 关键验证点。
+- 2026-02-02 - AI: 完成任务 5.1，新增 `tests/test_hook_install.py` 覆盖首次安装、幂等安装、已有 hook 合并备份；当前为 TDD 红阶段（`themis.hooks` 尚未实现）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
@@ -92,3 +93,4 @@ related_prd_feature: "../index.md"
 - 用户: 同意继续补充 AC 细节，进一步降低实现与验收歧义。
 - 用户: 同意补充 AC1.4（卸载 hook 验收项）与任务对齐。
 - 用户: 要求补充测试任务，增强 AC 通过保障。
+- 用户: 执行 SS004 任务 5.1。
