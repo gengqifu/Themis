@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
+from typing import Sequence
 
 
 THEMIS_MARKER = "# themis:managed-pre-commit"
@@ -78,3 +82,68 @@ def uninstall_hooks(*, repo_root: Path) -> None:
         backup.replace(pre_commit)
     else:
         pre_commit.unlink()
+
+
+def run_command(argv: Sequence[str], *, cwd: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        list(argv),
+        cwd=str(cwd),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def run_pre_commit_hook(*, repo_root: Path, platform: str) -> int:
+    git_dir = repo_root / ".git"
+    if not git_dir.exists():
+        print(
+            "Themis hook failed: not a git repository.",
+            file=sys.stderr,
+            flush=True,
+        )
+        return 2
+
+    diff_result = run_command(
+        ["git", "diff", "--cached", "-U0", "--no-color"],
+        cwd=repo_root,
+    )
+    if diff_result.returncode != 0:
+        print(
+            "Themis hook failed: failed to read staged diff.",
+            file=sys.stderr,
+            flush=True,
+        )
+        return 2
+    diff_text = diff_result.stdout
+    if not diff_text.strip():
+        print(
+            "Themis hook failed: staged diff is empty.",
+            file=sys.stderr,
+            flush=True,
+        )
+        return 2
+
+    tmp_path: str | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", delete=False, prefix="themis-diff-", suffix=".patch"
+        ) as tmp:
+            tmp.write(diff_text)
+            tmp_path = tmp.name
+
+        scan_result = run_command(
+            ["themis", "scan", "--platform", platform, "--diff-file", tmp_path],
+            cwd=repo_root,
+        )
+        if scan_result.returncode != 0:
+            print(
+                "Themis hook failed: scan failed.",
+                file=sys.stderr,
+                flush=True,
+            )
+            return scan_result.returncode
+        return 0
+    finally:
+        if tmp_path:
+            Path(tmp_path).unlink(missing_ok=True)
