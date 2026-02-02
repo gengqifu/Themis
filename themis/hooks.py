@@ -37,7 +37,7 @@ def _build_hook_script(*, platform: str, backup_name: str | None) -> str:
         'HOOKS_DIR="$(dirname "$0")"',
         'DIFF_FILE="$(mktemp -t themis-diff.XXXXXX)"',
         'git diff --cached -U0 --no-color > "$DIFF_FILE"',
-        'themis scan --platform '
+        'themis scan "$(pwd)" --platform '
         + platform
         + ' --diff-file "$DIFF_FILE"',
         "themis_exit=$?",
@@ -152,6 +152,7 @@ def _run_scan_with_diff_file(
             [
                 "themis",
                 "scan",
+                str(repo_root),
                 "--platform",
                 platform,
                 "--diff-file",
