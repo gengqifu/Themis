@@ -78,3 +78,26 @@ def test_install_hooks_merged_script_short_circuits_on_themis_failure(tmp_path: 
     merged = _read_pre_commit(repo_root)
     assert "if [ $themis_exit -ne 0 ]; then" in merged
     assert "exit $themis_exit" in merged
+
+
+def test_install_hooks_script_uses_cached_diff_u0_and_no_color(tmp_path: Path) -> None:
+    repo_root = tmp_path
+    hooks_dir = repo_root / ".git" / "hooks"
+    hooks_dir.mkdir(parents=True)
+
+    install_hooks(repo_root=repo_root, platform="backend")
+
+    content = _read_pre_commit(repo_root)
+    assert "git diff --cached -U0 --no-color" in content
+
+
+def test_install_hooks_script_passes_diff_file_to_scan_command(tmp_path: Path) -> None:
+    repo_root = tmp_path
+    hooks_dir = repo_root / ".git" / "hooks"
+    hooks_dir.mkdir(parents=True)
+
+    install_hooks(repo_root=repo_root, platform="android")
+
+    content = _read_pre_commit(repo_root)
+    assert "--diff-file" in content
+    assert "--platform android" in content
