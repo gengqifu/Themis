@@ -20,7 +20,7 @@ related_prd_feature: "../index.md"
 - [x] AC1: 使用 GitLab CI 的 MR pipeline 触发扫描（opened/updated），`.gitlab-ci.yml` 中通过 `merge_request_event` 规则触发
 - [x] AC2: 获取 MR diff 并使用 `diff` 模式扫描（优先 CI 提供的 diff；缺失时回退 GitLab API；都失败则任务失败并输出错误）
 - [x] AC3: 将扫描结果回写到 MR 的 **discussion**（仅 discussion），并通过固定锚点（例如 `<!-- themis:mr-scan -->`）更新同一条 discussion，避免重复创建
-- [ ] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）；默认前后保留 2 字符，中间 `***`
+- [x] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）；默认前后保留 2 字符，中间 `***`
 - [ ] AC4.1: 单次回写条数上限可配置（默认 50）；超限时输出摘要（总数 + 前 N 条）
 - [ ] AC5: 兼容 GitLab self-managed 13.5.3（相关 API endpoint/字段经过该版本验证）
 - [ ] AC6: CI 必需环境变量明确并校验（至少：`CI_PROJECT_ID`、`CI_MERGE_REQUEST_IID`、`CI_API_V4_URL`、`GITLAB_TOKEN`）
