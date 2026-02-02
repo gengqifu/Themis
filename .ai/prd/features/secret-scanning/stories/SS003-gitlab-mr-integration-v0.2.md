@@ -50,7 +50,7 @@ related_prd_feature: "../index.md"
 - [x] 6. **实现**：集成扫描器并生成 MR 友好的输出
 - [x] 7. **实现**：discussion 锚点机制（固定更新同一条 discussion）
 - [x] 8. **实现**：`.gitlab-ci.yml` 集成样例与必需环境变量说明
-- [ ] 9. **重构**：抽离 CI/MR 适配层，减少耦合
+- [x] 9. **重构**：抽离 CI/MR 适配层，减少耦合
 - [ ] 10. **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
 - [ ] 11. **实现**：统一失败退出码与错误分类输出
 
@@ -72,6 +72,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.6，新增 `build_mr_scan_output` 把 diff 行过滤扫描与 MR discussion 输出串联，并新增 `tests/test_gitlab_mr_scan.py` 验证脱敏与 diff 命中。
 - 2026-02-02 - AI: 完成任务 5.7，确认并固化 discussion 锚点更新机制（`DISCUSSION_ANCHOR` + `upsert_scan_discussion`），同条 discussion 更新行为通过测试。
 - 2026-02-02 - AI: 完成任务 5.8，新增 `.gitlab-ci.yml.example`（MR pipeline 触发、回写 discussion）并在 `README.md` 补充必需环境变量说明。
+- 2026-02-02 - AI: 完成任务 5.9，新增 `themis/mr_integration.py` 抽离 MR 扫描编排层（环境解析、API 客户端、扫描与回写），并将 `.gitlab-ci.yml.example` 改为调用单一入口以降低耦合；新增 `tests/test_mr_integration.py`。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。
@@ -84,3 +85,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS003 任务 5.6（集成扫描器并生成 MR 输出）。
 - 用户: 执行 SS003 任务 5.7（discussion 锚点机制实现）。
 - 用户: 执行 SS003 任务 5.8（`.gitlab-ci.yml` 集成样例与变量说明）。
+- 用户: 执行 SS003 任务 5.9（抽离 CI/MR 适配层，减少耦合）。
