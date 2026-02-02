@@ -15,6 +15,12 @@ DISCUSSION_ANCHOR = "<!-- themis:mr-scan -->"
 
 
 def classify_gitlab_error(error: Exception) -> str:
+    if isinstance(error, ValueError):
+        message = str(error).lower()
+        if "missing required ci variables" in message:
+            return "missing_variable"
+        if "pipeline is not merge_request_event" in message:
+            return "invalid_pipeline"
     if isinstance(error, PermissionError):
         return "permission_denied"
     if isinstance(error, OSError):

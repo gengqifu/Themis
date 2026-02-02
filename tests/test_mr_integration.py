@@ -66,4 +66,6 @@ def test_run_mr_scan_job_safe_returns_nonzero_on_error(capsys) -> None:
         env={"CI_PIPELINE_SOURCE": "merge_request_event"},
     )
     assert code == 2
-    assert "Missing required CI variables" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert "missing_variable" in err
+    assert "Missing required CI variables" in err

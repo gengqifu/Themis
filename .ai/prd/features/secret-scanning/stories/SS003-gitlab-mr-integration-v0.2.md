@@ -52,7 +52,7 @@ related_prd_feature: "../index.md"
 - [x] 8. **实现**：`.gitlab-ci.yml` 集成样例与必需环境变量说明
 - [x] 9. **重构**：抽离 CI/MR 适配层，减少耦合
 - [x] 10. **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
-- [ ] 11. **实现**：统一失败退出码与错误分类输出
+- [x] 11. **实现**：统一失败退出码与错误分类输出
 
 ## 6. 待解决问题 (Open Questions)
 - GitLab 为 self-managed，版本 13.5.3。
@@ -74,6 +74,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.8，新增 `.gitlab-ci.yml.example`（MR pipeline 触发、回写 discussion）并在 `README.md` 补充必需环境变量说明。
 - 2026-02-02 - AI: 完成任务 5.9，新增 `themis/mr_integration.py` 抽离 MR 扫描编排层（环境解析、API 客户端、扫描与回写），并将 `.gitlab-ci.yml.example` 改为调用单一入口以降低耦合；新增 `tests/test_mr_integration.py`。
 - 2026-02-02 - AI: 完成任务 5.10，新增 `tests/test_mr_integration_e2e.py`，在本地模拟 `merge_request_event` CI 环境并使用 mock GitLab API 验证端到端扫描与 discussion 回写。
+- 2026-02-02 - AI: 完成任务 5.11，统一失败退出码（失败返回 `2`）并细化错误分类输出（新增 `missing_variable` / `invalid_pipeline`），补充对应测试。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。
@@ -88,3 +89,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS003 任务 5.8（`.gitlab-ci.yml` 集成样例与变量说明）。
 - 用户: 执行 SS003 任务 5.9（抽离 CI/MR 适配层，减少耦合）。
 - 用户: 执行 SS003 任务 5.10（端到端测试：本地 CI 模拟 + mock GitLab API）。
+- 用户: 执行 SS003 任务 5.11（统一失败退出码与错误分类输出）。

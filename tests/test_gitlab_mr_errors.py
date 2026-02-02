@@ -18,6 +18,13 @@ def test_classify_gitlab_error_for_api_failure() -> None:
     assert error_type == "api_failed"
 
 
+def test_classify_gitlab_error_for_missing_variables() -> None:
+    error_type = classify_gitlab_error(
+        ValueError("Missing required CI variables: CI_PROJECT_ID")
+    )
+    assert error_type == "missing_variable"
+
+
 def test_validate_diff_text_rejects_empty_diff() -> None:
     with pytest.raises(ValueError, match="MR diff is empty"):
         validate_diff_text("")
