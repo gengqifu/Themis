@@ -1,0 +1,53 @@
+stages:
+  - security
+
+themis_mr_scan:
+  stage: security
+  image: python:3.12
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - |
+      python - <<'PY'
+      import sys
+      from themis.ci_context import ensure_merge_request_pipeline, parse_mr_context
+      from themis.config import load_config
+      from themis.gitlab_mr import (
+          GitLabApiClient,
+          build_mr_scan_output,
+          classify_gitlab_error,
+          upsert_scan_discussion,
+      )
+
+      try:
+          ensure_merge_request_pipeline()
+          context = parse_mr_context()
+          client = GitLabApiClient(
+              api_v4_url=context.api_v4_url,
+              token=context.gitlab_token,
+          )
+          diff_text = client.get_mr_diff_text(
+              project_id=context.project_id,
+              merge_request_iid=context.merge_request_iid,
+          )
+          config = load_config(platform="backend")
+          body = build_mr_scan_output(
+              paths=["."],
+              config=config,
+              diff_text=diff_text,
+              repo_root=".",
+          )
+          upsert_scan_discussion(
+              client=client,
+              project_id=context.project_id,
+              merge_request_iid=context.merge_request_iid,
+              content=body,
+          )
+          print("themis MR scan completed")
+      except Exception as exc:
+          print(f"themis MR scan failed: {classify_gitlab_error(exc)} - {exc}", file=sys.stderr)
+          sys.exit(2)
+      PY
