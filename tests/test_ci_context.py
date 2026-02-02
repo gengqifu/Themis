@@ -1,6 +1,24 @@
 import pytest
 
-from themis.ci_context import choose_mr_diff_source, parse_mr_context
+from themis.ci_context import (
+    choose_mr_diff_source,
+    ensure_merge_request_pipeline,
+    is_merge_request_pipeline,
+    parse_mr_context,
+)
+
+
+def test_is_merge_request_pipeline_true() -> None:
+    assert is_merge_request_pipeline({"CI_PIPELINE_SOURCE": "merge_request_event"})
+
+
+def test_is_merge_request_pipeline_false() -> None:
+    assert not is_merge_request_pipeline({"CI_PIPELINE_SOURCE": "push"})
+
+
+def test_ensure_merge_request_pipeline_raises_for_non_mr_source() -> None:
+    with pytest.raises(ValueError):
+        ensure_merge_request_pipeline({"CI_PIPELINE_SOURCE": "push"})
 
 
 def test_parse_mr_context_reads_required_variables() -> None:

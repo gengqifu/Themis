@@ -15,6 +15,9 @@ REQUIRED_CI_VARIABLES = (
 )
 
 
+MR_PIPELINE_SOURCE = "merge_request_event"
+
+
 @dataclass(frozen=True)
 class MergeRequestContext:
     project_id: str
@@ -22,6 +25,18 @@ class MergeRequestContext:
     api_v4_url: str
     gitlab_token: str
     diff_url: Optional[str]
+
+
+def is_merge_request_pipeline(env: Optional[Mapping[str, str]] = None) -> bool:
+    variables = os.environ if env is None else env
+    return variables.get("CI_PIPELINE_SOURCE") == MR_PIPELINE_SOURCE
+
+
+def ensure_merge_request_pipeline(env: Optional[Mapping[str, str]] = None) -> None:
+    if not is_merge_request_pipeline(env):
+        raise ValueError(
+            "Current pipeline is not merge_request_event; skip MR integration job"
+        )
 
 
 def parse_mr_context(env: Optional[Mapping[str, str]] = None) -> MergeRequestContext:
