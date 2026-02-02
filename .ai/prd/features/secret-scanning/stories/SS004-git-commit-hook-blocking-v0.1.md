@@ -28,7 +28,7 @@ related_prd_feature: "../index.md"
 - [x] AC3.1: 阈值可配置（键名 `scan.block_on_severity`），优先级为：命令行参数 > 配置文件 > 默认值（`critical`）
 - [x] AC4: 支持豁免机制（路径/注释/baseline）在 hook 场景同样生效
 - [x] AC5: Hook 不修改用户代码，不产生网络依赖（除非明确启用）
-- [ ] AC6: Hook 性能要求：只处理 staged diff 的新增/修改行；跳过二进制与超大文件
+- [x] AC6: Hook 性能要求：只处理 staged diff 的新增/修改行；跳过二进制与超大文件
 - [ ] AC6.1: 性能量化验收：在 200 行以内 staged diff、默认规则下，本地执行 `pre-commit` 扫描耗时 `p95 <= 1s`，`p99 <= 2s`；基线环境为 4 核 CPU / 8GB RAM / Python 3.10+，每项场景至少采样 30 次
 
 ## 3. 背景与上下文 (Context & Background)
