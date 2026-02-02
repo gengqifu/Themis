@@ -69,6 +69,8 @@ related_prd_feature: "../index.md"
 - [ ] 10. **重构**：抽离 hook 安装/执行公共逻辑，避免 CLI 与脚本重复实现
 - [ ] 11. **测试**：端到端（临时 git repo：critical 阻断、非 critical 放行、豁免放行）
 - [ ] 12. **测试**：性能基线（200 行 staged diff，统计 `p95/p99`）
+- [ ] 13. **测试**：副作用校验（hook 执行前后工作区文件哈希一致，确保不修改用户代码）
+- [ ] 14. **测试**：离线校验（禁网环境执行 hook，扫描流程不依赖外网可正常完成）
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
 - 约束：hook 必须轻量，不显著拖慢 commit；不引入网络依赖
@@ -82,9 +84,11 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 根据评审补全 AC 与任务细节：明确 hook 合并/回滚策略、diff-file 传递方式、阈值配置优先级、异常路径与性能量化指标。
 - 2026-02-02 - AI: 进一步收敛验收口径：补充 hook 失败短路与退出码透传、空 diff 默认阻断不可配置放行、性能基线环境与采样次数。
 - 2026-02-02 - AI: 补充 AC1.4，与任务中的 `uninstall-hooks` 对齐，避免“有任务无验收”歧义。
+- 2026-02-02 - AI: 补充测试任务 13/14，覆盖“无代码副作用”和“离线可运行”两个 AC5 关键验证点。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
 - 用户: 同意细化 SS004 文档，要求从开发者视角降低实现歧义。
 - 用户: 同意继续补充 AC 细节，进一步降低实现与验收歧义。
 - 用户: 同意补充 AC1.4（卸载 hook 验收项）与任务对齐。
+- 用户: 要求补充测试任务，增强 AC 通过保障。
