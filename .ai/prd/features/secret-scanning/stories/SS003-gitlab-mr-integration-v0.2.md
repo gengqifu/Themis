@@ -7,7 +7,7 @@ owner: "AI 助手"
 story_points: "TBD"
 jira_id: ""
 created_date: "2026-01-29"
-last_updated: "2026-01-29"
+last_updated: "2026-02-02"
 related_prd_feature: "../index.md"
 ---
 
@@ -41,7 +41,7 @@ related_prd_feature: "../index.md"
 - 扫描结果脱敏与限量（避免刷屏与二次泄露）
 
 ## 5. 任务 (TDD 聚焦) (Tasks (TDD Focused))
-- [ ] 1. **测试**：MR pipeline 变量解析与 diff 获取逻辑
+- [x] 1. **测试**：MR pipeline 变量解析与 diff 获取逻辑
 - [ ] 2. **测试**：discussion 回写（更新同一条 discussion）
 - [ ] 3. **测试**：CI 运行输出（脱敏、格式正确）
 - [ ] 4. **测试**：异常路径（API 失败/权限不足/网络异常/diff 为空）
@@ -63,6 +63,8 @@ related_prd_feature: "../index.md"
 
 ## 8. 开发笔记与日志 (Development Notes & Log)
 - 2026-01-29 - AI: Story 草稿，按“GitLab CI 触发 + MR 评论回写、不阻断合并”的方案整理。
+- 2026-02-02 - AI: 完成任务 5.1，新增 `tests/test_ci_context.py`（CI 变量解析、diff 来源优先级）与 `themis/ci_context.py` 最小实现，验证通过定向测试。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。
+- 用户: 执行 SS003 任务 5.1（MR pipeline 变量解析与 diff 获取逻辑）。
