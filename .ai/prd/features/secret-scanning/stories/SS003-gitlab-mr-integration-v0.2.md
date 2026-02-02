@@ -17,10 +17,14 @@ related_prd_feature: "../index.md"
 **以便于** 让 reviewer 看到明确的风险与建议（当前不阻断合并）
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 使用 GitLab CI 的 MR pipeline 触发扫描（opened/updated）
-- [ ] AC2: 获取 MR diff（CI 提供的 MR diff 或 GitLab API），并使用 `diff` 模式扫描
-- [ ] AC3: 将扫描结果回写到 MR 的 **discussion**（仅 discussion），并更新同一条 discussion
-- [ ] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）
+- [ ] AC1: 使用 GitLab CI 的 MR pipeline 触发扫描（opened/updated），`.gitlab-ci.yml` 中通过 `merge_request_event` 规则触发
+- [ ] AC2: 获取 MR diff 并使用 `diff` 模式扫描（优先 CI 提供的 diff；缺失时回退 GitLab API；都失败则任务失败并输出错误）
+- [ ] AC3: 将扫描结果回写到 MR 的 **discussion**（仅 discussion），并通过固定锚点（例如 `<!-- themis:mr-scan -->`）更新同一条 discussion，避免重复创建
+- [ ] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）；默认前后保留 2 字符，中间 `***`
+- [ ] AC4.1: 单次回写条数上限可配置（默认 50）；超限时输出摘要（总数 + 前 N 条）
+- [ ] AC5: 兼容 GitLab self-managed 13.5.3（相关 API endpoint/字段经过该版本验证）
+- [ ] AC6: CI 必需环境变量明确并校验（至少：`CI_PROJECT_ID`、`CI_MERGE_REQUEST_IID`、`CI_API_V4_URL`、`GITLAB_TOKEN`）
+- [ ] AC7: 任务失败退出码统一为非 0，并在日志输出错误类型（变量缺失/API 失败/网络异常）
 
 ## 3. 背景与上下文 (Context & Background)
 - 使用 GitLab CI 在 MR 阶段触发扫描；当前未开通“阻断 MR 合并”的能力，因此本 Story 的目标是“回写 comment/讨论”，不做阻断。
@@ -40,11 +44,15 @@ related_prd_feature: "../index.md"
 - [ ] 1. **测试**：MR pipeline 变量解析与 diff 获取逻辑
 - [ ] 2. **测试**：discussion 回写（更新同一条 discussion）
 - [ ] 3. **测试**：CI 运行输出（脱敏、格式正确）
+- [ ] 4. **测试**：异常路径（API 失败/权限不足/网络异常/diff 为空）
 - [ ] 4. **实现**：CI job 触发条件与必要变量（MR pipeline）
 - [ ] 5. **实现**：GitLab API 客户端（获取 MR diff、回写 discussion）
 - [ ] 6. **实现**：集成扫描器并生成 MR 友好的输出
-- [ ] 7. **重构**：抽离 CI/MR 适配层，减少耦合
-- [ ] 8. **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
+- [ ] 7. **实现**：discussion 锚点机制（固定更新同一条 discussion）
+- [ ] 8. **实现**：`.gitlab-ci.yml` 集成样例与必需环境变量说明
+- [ ] 9. **重构**：抽离 CI/MR 适配层，减少耦合
+- [ ] 10. **测试**：端到端（本地模拟 CI 环境 + mock GitLab API）
+- [ ] 11. **实现**：统一失败退出码与错误分类输出
 
 ## 6. 待解决问题 (Open Questions)
 - GitLab 为 self-managed，版本 13.5.3。
