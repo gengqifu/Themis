@@ -17,7 +17,7 @@ related_prd_feature: "../index.md"
 **以便于** 把明显的高风险泄露拦截在本地提交阶段
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
-- [ ] AC1: 提供一种“安装/启用 hook”的方式（例如 `python -m themis install-hooks` 或脚本），将 hook 安装到 `.git/hooks/`
+- [x] AC1: 提供一种“安装/启用 hook”的方式（例如 `python -m themis install-hooks` 或脚本），将 hook 安装到 `.git/hooks/`
 - [ ] AC1.1: 一键接入：在无额外手工配置的情况下，单条命令即可完成接入（安装 hook + 使用默认规则/默认配置）
 - [ ] AC1.2: 幂等安装：重复执行安装命令不会重复注入 hook（同一仓库多次执行结果一致）
 - [ ] AC1.3: 已有 `pre-commit` 时自动合并：保留原 hook 文件为 `.git/hooks/pre-commit.themis.bak`，新 hook 先执行 themis，再执行原 hook；themis 失败时不再执行原 hook，直接阻断；原 hook 失败时透传原退出码
