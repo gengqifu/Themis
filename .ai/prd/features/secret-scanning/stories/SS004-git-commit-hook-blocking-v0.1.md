@@ -60,7 +60,7 @@ related_prd_feature: "../index.md"
 - [x] 1. **测试**：`install-hooks` 首次安装与幂等安装（重复安装不重复注入）
 - [x] 2. **测试**：已有 `pre-commit` 时的自动合并策略（备份命名、执行顺序、失败传播）
 - [x] 3. **测试**：`git diff --cached -U0 --no-color` 生成 diff-file 并传给 `themis scan --diff-file`
-- [ ] 4. **测试**：非 git 仓库 / staged diff 获取失败 / 空 diff 的安全失败路径
+- [x] 4. **测试**：非 git 仓库 / staged diff 获取失败 / 空 diff 的安全失败路径
 - [ ] 5. **测试**：阻断阈值默认值（`critical`）与配置覆盖优先级（CLI > 配置 > 默认）
 - [ ] 6. **测试**：hook 场景下路径/注释/baseline 豁免生效
 - [ ] 7. **实现**：`install-hooks` 与 `uninstall-hooks`（可回滚到原 hook）
@@ -88,6 +88,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.1，新增 `tests/test_hook_install.py` 覆盖首次安装、幂等安装、已有 hook 合并备份；当前为 TDD 红阶段（`themis.hooks` 尚未实现）。
 - 2026-02-02 - AI: 完成任务 5.2，补充 `tests/test_hook_install.py` 的合并细节用例（themis 先执行、失败短路阻断），当前仍为 TDD 红阶段（`themis.hooks` 未实现）。
 - 2026-02-02 - AI: 完成任务 5.3，补充 `tests/test_hook_install.py` 的 diff 采集与 `--diff-file` 传参用例（`git diff --cached -U0 --no-color` + scan 命令断言）；当前仍为 TDD 红阶段（`themis.hooks` 未实现）。
+- 2026-02-02 - AI: 完成任务 5.4，新增 `tests/test_hook_runner.py` 覆盖非 git 仓库、staged diff 获取失败、空 diff、scan 失败四类安全失败路径；当前仍为 TDD 红阶段（`themis.hooks` 未实现）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
@@ -98,3 +99,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS004 任务 5.1。
 - 用户: 执行 SS004 任务 5.2。
 - 用户: 执行 SS004 任务 5.3。
+- 用户: 执行 SS004 任务 5.4。
