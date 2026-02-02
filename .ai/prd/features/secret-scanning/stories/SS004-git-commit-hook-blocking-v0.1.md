@@ -70,7 +70,7 @@ related_prd_feature: "../index.md"
 - [x] 11. **测试**：端到端（临时 git repo：critical 阻断、非 critical 放行、豁免放行）
 - [x] 12. **测试**：性能基线（200 行 staged diff，统计 `p95/p99`）
 - [x] 13. **测试**：副作用校验（hook 执行前后工作区文件哈希一致，确保不修改用户代码）
-- [ ] 14. **测试**：离线校验（禁网环境执行 hook，扫描流程不依赖外网可正常完成）
+- [x] 14. **测试**：离线校验（禁网环境执行 hook，扫描流程不依赖外网可正常完成）
 
 ## 6. 约束与依赖关系 (Constraints & Dependencies)
 - 约束：hook 必须轻量，不显著拖慢 commit；不引入网络依赖
@@ -98,6 +98,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.11，新增 `tests/test_hook_e2e.py`（临时 git repo 端到端）：验证 critical 阻断、non-critical 放行、豁免放行（通过 mock `themis` 输出空 findings 模拟）。当前 hook 相关测试共 22 项通过。
 - 2026-02-02 - AI: 完成任务 5.12，新增 `tests/test_hook_performance.py`：200 行 staged diff、30 轮基线统计 `p95/p99`，验证 `p95<=1s`、`p99<=2s`。
 - 2026-02-02 - AI: 完成任务 5.13，新增 `tests/test_hook_side_effects.py`，校验 hook 执行前后工作区文件哈希一致；定向测试通过（1/1）。
+- 2026-02-02 - AI: 完成任务 5.14，新增 `tests/test_hook_offline.py`，禁网场景下运行 hook；定向测试通过（1/1）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
@@ -118,3 +119,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS004 任务 5.11。
 - 用户: 执行 SS004 任务 5.12。
 - 用户: 执行 SS004 任务 5.13。
+- 用户: 执行 SS004 任务 5.14。
