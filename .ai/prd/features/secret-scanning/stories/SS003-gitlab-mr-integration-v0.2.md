@@ -24,7 +24,7 @@ related_prd_feature: "../index.md"
 - [x] AC4.1: 单次回写条数上限可配置（默认 50）；超限时输出摘要（总数 + 前 N 条）
 - [ ] AC5: 兼容 GitLab self-managed 13.5.3（相关 API endpoint/字段经过该版本验证）
 - [x] AC6: CI 必需环境变量明确并校验（至少：`CI_PROJECT_ID`、`CI_MERGE_REQUEST_IID`、`CI_API_V4_URL`、`GITLAB_TOKEN`）
-- [ ] AC7: 任务失败退出码统一为非 0，并在日志输出错误类型（变量缺失/API 失败/网络异常）
+- [x] AC7: 任务失败退出码统一为非 0，并在日志输出错误类型（变量缺失/API 失败/网络异常）
 
 ## 3. 背景与上下文 (Context & Background)
 - 使用 GitLab CI 在 MR 阶段触发扫描；当前未开通“阻断 MR 合并”的能力，因此本 Story 的目标是“回写 comment/讨论”，不做阻断。
