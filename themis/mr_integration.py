@@ -30,10 +30,28 @@ def run_mr_scan_job(
     factory = client_factory or GitLabApiClient
     client = factory(api_v4_url=context.api_v4_url, token=context.gitlab_token)
 
-    diff_text = client.get_mr_diff_text(
-        project_id=context.project_id,
-        merge_request_iid=context.merge_request_iid,
-    )
+    diff_text: Optional[str] = None
+    primary_error: Optional[Exception] = None
+    if context.diff_url:
+        try:
+            diff_text = client.get_diff_text_from_url(url=context.diff_url)
+        except Exception as exc:
+            primary_error = exc
+
+    if diff_text is None:
+        try:
+            diff_text = client.get_mr_diff_text(
+                project_id=context.project_id,
+                merge_request_iid=context.merge_request_iid,
+            )
+        except Exception as fallback_error:
+            if primary_error is not None:
+                raise RuntimeError(
+                    "Failed to get MR diff from CI URL and GitLab API: "
+                    f"{primary_error}; {fallback_error}"
+                ) from fallback_error
+            raise
+
     config = load_config(platform=platform, cwd=root)
     body = build_mr_scan_output(
         paths=scan_paths,

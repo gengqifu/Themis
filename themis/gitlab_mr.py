@@ -176,3 +176,16 @@ class GitLabApiClient:
             if diff:
                 parts.append(diff)
         return validate_diff_text("\n".join(parts))
+
+    def get_diff_text_from_url(self, *, url: str) -> str:
+        req = Request(url=url, method="GET", headers={"PRIVATE-TOKEN": self.token})
+        try:
+            with urlopen(req, timeout=self.timeout_seconds) as resp:
+                text = resp.read().decode("utf-8")
+                return validate_diff_text(text)
+        except HTTPError as error:
+            if error.code in (401, 403):
+                raise PermissionError(str(error)) from error
+            raise RuntimeError(f"GitLab API request failed: {error.code}") from error
+        except URLError as error:
+            raise OSError(f"GitLab network error: {error.reason}") from error

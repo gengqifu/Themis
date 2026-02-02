@@ -18,7 +18,7 @@ related_prd_feature: "../index.md"
 
 ## 2. 验收标准 (Acceptance Criteria - AC)
 - [x] AC1: 使用 GitLab CI 的 MR pipeline 触发扫描（opened/updated），`.gitlab-ci.yml` 中通过 `merge_request_event` 规则触发
-- [ ] AC2: 获取 MR diff 并使用 `diff` 模式扫描（优先 CI 提供的 diff；缺失时回退 GitLab API；都失败则任务失败并输出错误）
+- [x] AC2: 获取 MR diff 并使用 `diff` 模式扫描（优先 CI 提供的 diff；缺失时回退 GitLab API；都失败则任务失败并输出错误）
 - [ ] AC3: 将扫描结果回写到 MR 的 **discussion**（仅 discussion），并通过固定锚点（例如 `<!-- themis:mr-scan -->`）更新同一条 discussion，避免重复创建
 - [ ] AC4: 回写内容默认脱敏，避免泄露（不写入完整 secret）；默认前后保留 2 字符，中间 `***`
 - [ ] AC4.1: 单次回写条数上限可配置（默认 50）；超限时输出摘要（总数 + 前 N 条）
@@ -75,6 +75,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.9，新增 `themis/mr_integration.py` 抽离 MR 扫描编排层（环境解析、API 客户端、扫描与回写），并将 `.gitlab-ci.yml.example` 改为调用单一入口以降低耦合；新增 `tests/test_mr_integration.py`。
 - 2026-02-02 - AI: 完成任务 5.10，新增 `tests/test_mr_integration_e2e.py`，在本地模拟 `merge_request_event` CI 环境并使用 mock GitLab API 验证端到端扫描与 discussion 回写。
 - 2026-02-02 - AI: 完成任务 5.11，统一失败退出码（失败返回 `2`）并细化错误分类输出（新增 `missing_variable` / `invalid_pipeline`），补充对应测试。
+- 2026-02-02 - AI: 按 AC2 补全 diff 来源优先级：`run_mr_scan_job` 先尝试 `CI_MERGE_REQUEST_DIFF_URL`，失败后回退 `get_mr_diff_text`；两者都失败时输出统一错误并失败退出。新增/更新 `tests/test_mr_integration.py` 覆盖优先级与双失败场景。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。
@@ -90,3 +91,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS003 任务 5.9（抽离 CI/MR 适配层，减少耦合）。
 - 用户: 执行 SS003 任务 5.10（端到端测试：本地 CI 模拟 + mock GitLab API）。
 - 用户: 执行 SS003 任务 5.11（统一失败退出码与错误分类输出）。
+- 用户: 验收 AC2 后要求补全“CI diff 优先，失败回退 API，双失败报错”。
