@@ -92,3 +92,17 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS003 任务 5.10（端到端测试：本地 CI 模拟 + mock GitLab API）。
 - 用户: 执行 SS003 任务 5.11（统一失败退出码与错误分类输出）。
 - 用户: 验收 AC2 后要求补全“CI diff 优先，失败回退 API，双失败报错”。
+
+## 10. AC5 实测清单（GitLab self-managed 13.5.3）
+1. 在测试仓库创建一个 MR，改动里放一条可命中的敏感样例（如私钥片段）。
+2. 配置 CI 变量 `GITLAB_TOKEN`（具备读 MR + 写 discussion 权限），并启用 `.gitlab-ci.yml.example` 对应 job。
+3. 触发 MR pipeline，确认 job 成功运行且日志出现 `themis MR scan completed`。
+4. 打开 MR，确认：
+   - 出现 discussion（不是 comment）；
+   - 内容为脱敏输出（不含完整明文 secret）。
+5. 再次 push 更新同一 MR，确认：
+   - 更新同一条 discussion（不重复新增）；
+   - diff 获取正常（优先 CI diff URL，必要时回退 API）。
+6. 失败注入验证（例如临时移除 `GITLAB_TOKEN`）：
+   - job 非 0 退出；
+   - 日志输出错误分类（如 `missing_variable` / `permission_denied`）。
