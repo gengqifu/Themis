@@ -7,6 +7,8 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 from themis.report import redact
+from themis.diff_utils import build_lines_map_from_diff
+from themis.scanner import scan_paths
 
 
 DISCUSSION_ANCHOR = "<!-- themis:mr-scan -->"
@@ -49,6 +51,30 @@ def format_scan_discussion_body(
             ).strip()
         )
     return "\n".join(lines)
+
+
+def build_mr_scan_output(
+    *,
+    paths: Iterable[str],
+    config: Dict,
+    diff_text: str,
+    repo_root: str,
+) -> str:
+    valid_diff = validate_diff_text(diff_text)
+    only_lines = build_lines_map_from_diff(valid_diff, repo_root=repo_root)
+    findings = scan_paths(
+        paths,
+        rules=config.get("rules", []),
+        max_file_size_bytes=config.get("scan", {}).get("max_file_size_bytes", 0),
+        only_lines=only_lines,
+        allowlist_paths=config.get("allowlist", {}).get("paths", []),
+    )
+    output_cfg = config.get("output", {})
+    return format_scan_discussion_body(
+        findings,
+        redact_keep=output_cfg.get("redact_keep", 2),
+        limit=output_cfg.get("max_discussion_findings", 50),
+    )
 
 
 def upsert_scan_discussion(

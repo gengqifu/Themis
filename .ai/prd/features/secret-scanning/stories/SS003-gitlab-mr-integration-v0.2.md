@@ -47,7 +47,7 @@ related_prd_feature: "../index.md"
 - [x] 4. **测试**：异常路径（API 失败/权限不足/网络异常/diff 为空）
 - [x] 4. **实现**：CI job 触发条件与必要变量（MR pipeline）
 - [x] 5. **实现**：GitLab API 客户端（获取 MR diff、回写 discussion）
-- [ ] 6. **实现**：集成扫描器并生成 MR 友好的输出
+- [x] 6. **实现**：集成扫描器并生成 MR 友好的输出
 - [ ] 7. **实现**：discussion 锚点机制（固定更新同一条 discussion）
 - [ ] 8. **实现**：`.gitlab-ci.yml` 集成样例与必需环境变量说明
 - [ ] 9. **重构**：抽离 CI/MR 适配层，减少耦合
@@ -69,6 +69,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.4，新增 `tests/test_gitlab_mr_errors.py`，覆盖 API 失败/权限不足/网络异常分类与空 diff 拒绝（TDD 红阶段）。
 - 2026-02-02 - AI: 完成任务 5.4（实现），在 `themis/ci_context.py` 增加 MR pipeline 来源判断与守卫（`merge_request_event`），并补充对应单测。
 - 2026-02-02 - AI: 完成任务 5.5，实现 `themis/gitlab_mr.py`（GitLab API 客户端、MR diff 获取、discussion upsert、输出格式化与错误分类），并使 5.2~5.4 相关测试转绿。
+- 2026-02-02 - AI: 完成任务 5.6，新增 `build_mr_scan_output` 把 diff 行过滤扫描与 MR discussion 输出串联，并新增 `tests/test_gitlab_mr_scan.py` 验证脱敏与 diff 命中。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。
@@ -78,3 +79,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS003 任务 5.4（异常路径测试：API/权限/网络/空 diff）。
 - 用户: 执行 SS003 任务 5.4（实现：MR pipeline 触发条件与必要变量）。
 - 用户: 执行 SS003 任务 5.5（实现 GitLab API 客户端）。
+- 用户: 执行 SS003 任务 5.6（集成扫描器并生成 MR 输出）。
