@@ -29,7 +29,7 @@ def test_run_pre_commit_hook_allows_commit_when_exempted_by_path(
             result.stderr = ""
         else:
             result.returncode = 0
-            result.stdout = ""
+            result.stdout = '{"findings":[]}'
             result.stderr = ""
         return result
 
@@ -66,7 +66,7 @@ def test_run_pre_commit_hook_allows_commit_when_exempted_by_baseline(
             result.stderr = ""
         else:
             result.returncode = 0
-            result.stdout = ""
+            result.stdout = '{"findings":[]}'
             result.stderr = ""
         return result
 

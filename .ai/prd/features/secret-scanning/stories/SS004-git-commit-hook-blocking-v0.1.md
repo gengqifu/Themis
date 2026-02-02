@@ -65,7 +65,7 @@ related_prd_feature: "../index.md"
 - [x] 6. **测试**：hook 场景下路径/注释/baseline 豁免生效
 - [x] 7. **实现**：`install-hooks` 与 `uninstall-hooks`（可回滚到原 hook）
 - [x] 8. **实现**：`pre-commit` 执行器（staged diff 采集、临时文件管理、调用 scan）
-- [ ] 9. **实现**：阻断阈值联动与错误码映射（保持与 CLI 一致）
+- [x] 9. **实现**：阻断阈值联动与错误码映射（保持与 CLI 一致）
 - [ ] 10. **重构**：抽离 hook 安装/执行公共逻辑，避免 CLI 与脚本重复实现
 - [ ] 11. **测试**：端到端（临时 git repo：critical 阻断、非 critical 放行、豁免放行）
 - [ ] 12. **测试**：性能基线（200 行 staged diff，统计 `p95/p99`）
@@ -93,6 +93,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 完成任务 5.6，新增 `tests/test_hook_exemptions.py` 覆盖 hook 场景下路径与 baseline 豁免放行；当前仍为 TDD 红阶段（`themis.hooks` 未实现）。
 - 2026-02-02 - AI: 完成任务 5.7，实现 `themis/hooks.py` 中 `install_hooks` / `uninstall_hooks`（含已有 hook 合并备份与回滚恢复），`tests/test_hook_install.py` 通过（7/7）。
 - 2026-02-02 - AI: 完成任务 5.8，在 `themis/hooks.py` 实现 `run_pre_commit_hook` 与 `run_command`（staged diff 采集、临时 diff 文件、调用 `themis scan --diff-file`、失败分支错误输出）；`tests/test_hook_runner.py` 与 `tests/test_hook_install.py` 共 11 个用例通过。
+- 2026-02-02 - AI: 完成任务 5.9，在 `themis/hooks.py` 实现 `resolve_block_on_severity` 并接入 `run_pre_commit_hook`，支持 `CLI > 配置 > 默认(critical)` 的阈值优先级，按 `compute_exit_code` 统一阻断返回码；同步修正 hook 测试桩为 JSON 输出后，相关 19 个测试通过。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: 工具只需要支持 commit 与 merge request 两个节点；commit 严重命中要阻断提交（默认仅 critical）；MR 使用 GitLab CI 回写 discussion；多仓多平台各自配置文件。
@@ -108,3 +109,4 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS004 任务 5.6。
 - 用户: 执行 SS004 任务 5.7。
 - 用户: 执行 SS004 任务 5.8。
+- 用户: 执行 SS004 任务 5.9。

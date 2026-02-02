@@ -73,7 +73,7 @@ def test_run_pre_commit_hook_fails_when_scan_command_failed(
             result.stdout = "diff --git a/a b/a\n@@ -0,0 +1 @@\n+x"
             result.stderr = ""
         else:
-            result.returncode = 2
+            result.returncode = 1
             result.stdout = ""
             result.stderr = "critical finding"
         return result
