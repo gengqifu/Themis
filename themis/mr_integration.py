@@ -6,6 +6,7 @@ from typing import Callable, Iterable, Mapping, Optional
 
 from themis.ci_context import ensure_merge_request_pipeline, parse_mr_context
 from themis.config import load_config
+from themis.diff_utils import parse_unified_diff
 from themis.gitlab_mr import (
     GitLabApiClient,
     build_mr_scan_output,
@@ -30,11 +31,19 @@ def run_mr_scan_job(
     factory = client_factory or GitLabApiClient
     client = factory(api_v4_url=context.api_v4_url, token=context.gitlab_token)
 
+    def _has_file_headers(text: str) -> bool:
+        return "diff --git " in text or "\n+++ " in text or text.startswith("+++ ")
+
     diff_text: Optional[str] = None
     primary_error: Optional[Exception] = None
     if context.diff_url:
         try:
             diff_text = client.get_diff_text_from_url(url=context.diff_url)
+            if not _has_file_headers(diff_text):
+                diff_text = None
+                primary_error = RuntimeError(
+                    "MR diff from CI URL missing file headers"
+                )
         except Exception as exc:
             primary_error = exc
 

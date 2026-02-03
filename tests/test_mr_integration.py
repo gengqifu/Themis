@@ -125,6 +125,43 @@ def test_run_mr_scan_job_prefers_ci_diff_url(tmp_path: Path) -> None:
     assert fake_client.api_calls == 0
 
 
+def test_run_mr_scan_job_falls_back_when_url_diff_missing_headers(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "a.txt"
+    target.write_text("line1\nBEGIN RSA PRIVATE KEY\n", encoding="utf-8")
+    api_diff_text = """diff --git a/a.txt b/a.txt
+--- a/a.txt
++++ b/a.txt
+@@ -1,1 +1,2 @@
+ line1
++BEGIN RSA PRIVATE KEY
+"""
+    url_diff_text = "@@ -0,0 +1 @@\n+BEGIN RSA PRIVATE KEY\n"
+    fake_client = FakeGitLabClient(
+        diff_text=api_diff_text,
+        url_diff_text=url_diff_text,
+    )
+    env = {
+        "CI_PIPELINE_SOURCE": "merge_request_event",
+        "CI_PROJECT_ID": "100",
+        "CI_MERGE_REQUEST_IID": "7",
+        "CI_API_V4_URL": "https://gitlab.example/api/v4",
+        "GITLAB_TOKEN": "token",
+        "CI_MERGE_REQUEST_DIFF_URL": "https://gitlab.example/diff.patch",
+    }
+    body = run_mr_scan_job(
+        platform="backend",
+        paths=[str(tmp_path)],
+        repo_root=str(tmp_path),
+        env=env,
+        client_factory=lambda **_: fake_client,
+    )
+    assert "PRIVATE_KEY_BLOCK" in body
+    assert fake_client.url_calls == 1
+    assert fake_client.api_calls == 1
+
+
 def test_run_mr_scan_job_falls_back_to_api_when_url_diff_failed(tmp_path: Path) -> None:
     target = tmp_path / "a.txt"
     target.write_text("line1\nBEGIN RSA PRIVATE KEY\n", encoding="utf-8")
