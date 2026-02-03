@@ -94,6 +94,8 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 默认规则集保持在 `themis.rules.default_rules` 并补充测试断言。
 - 2026-01-30 - AI: 重构扫描流程（合并过滤条件，减少分支）。
 - 2026-01-30 - AI: 已更新本 Story 的 Development Notes & Log，完成任务 14。
+- 2026-02-03 - AI: 新增 zipapp 打包脚本 `bin/build-zipapp.sh` 与 README 说明，提供单文件分发方式（A-1）。
+- 2026-02-03 - AI: `build-zipapp.sh` 改为使用临时 venv 安装依赖，避免 PEP 668 外部环境限制。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。

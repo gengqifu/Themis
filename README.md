@@ -5,6 +5,22 @@
 - Python 3.10+
 - 依赖安装：`pip install -r requirements.txt`
 
+## 单文件可执行（zipapp）
+适合不想使用 venv 的场景。只需系统已有 `python3`。
+
+构建（开发者/CI 侧）：
+```
+./bin/build-zipapp.sh
+```
+说明：脚本会在 `build/` 下创建临时 venv 安装依赖，不会污染系统 Python。
+
+产物：
+- `dist/themis.pyz`
+
+使用：
+- `python3 dist/themis.pyz scan . --platform backend`
+- 或放入 PATH 后：`themis.pyz scan . --platform backend`
+
 ## 快速开始（本地扫描）
 - 扫描当前目录（默认规则）：`python -m themis scan . --platform backend`
 - JSON 输出：`python -m themis scan . --platform backend --format json`
