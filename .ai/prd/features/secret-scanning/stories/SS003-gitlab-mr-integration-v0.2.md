@@ -78,6 +78,7 @@ related_prd_feature: "../index.md"
 - 2026-02-02 - AI: 按 AC2 补全 diff 来源优先级：`run_mr_scan_job` 先尝试 `CI_MERGE_REQUEST_DIFF_URL`，失败后回退 `get_mr_diff_text`；两者都失败时输出统一错误并失败退出。新增/更新 `tests/test_mr_integration.py` 覆盖优先级与双失败场景。
 - 2026-02-03 - AI: 修复 CI diff URL 缺失文件头导致 0 findings 的问题：当 URL diff 无 `diff --git/+++` 头时回退 API diff；新增测试 `test_run_mr_scan_job_falls_back_when_url_diff_missing_headers`。本地 pytest 受临时目录权限影响未能执行（需设置可用 TMPDIR）。
 - 2026-02-03 - AI: 增加回退可见日志：当 URL diff 缺少文件头触发回退时打印提示，便于 CI 侧排查。
+- 2026-02-03 - AI: 修复 diff 解析对缺少 `+++` 文件头的兼容性：支持从 `diff --git a/... b/...` 提取文件路径；新增 `test_parse_unified_diff_without_plus_header_uses_diff_git`。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: GitLab 为 self-managed；MR 使用 GitLab CI 触发扫描；回写方式仅 discussion；不阻断合并；commit 阶段仅 critical 阻断；多仓多平台各平台独立配置文件；输出默认脱敏且可配置开关。

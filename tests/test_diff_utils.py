@@ -46,3 +46,13 @@ def test_build_lines_map_from_diff(tmp_path: Path) -> None:
     mapping = build_lines_map_from_diff(diff, repo_root=str(tmp_path))
     assert str(tmp_path / "a.txt") in mapping
     assert mapping[str(tmp_path / "a.txt")] == [2]
+
+
+def test_parse_unified_diff_without_plus_header_uses_diff_git() -> None:
+    diff = """diff --git a/a.txt b/a.txt
+@@ -1,1 +1,2 @@
+ line1
++added
+"""
+    result = parse_unified_diff(diff)
+    assert result["a.txt"] == [2]

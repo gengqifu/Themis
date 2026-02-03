@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, List
 
 HUNK_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
+DIFF_GIT_RE = re.compile(r"^diff --git a/(.+?) b/(.+)$")
 
 
 def parse_unified_diff(diff_text: str) -> Dict[str, List[int]]:
@@ -13,6 +14,13 @@ def parse_unified_diff(diff_text: str) -> Dict[str, List[int]]:
     new_line_no: int | None = None
 
     for line in diff_text.splitlines():
+        git_match = DIFF_GIT_RE.match(line)
+        if git_match:
+            current_file = git_match.group(2)
+            file_lines.setdefault(current_file, [])
+            new_line_no = None
+            continue
+
         if line.startswith("+++ "):
             path = line[4:].strip()
             if path.startswith("b/"):
