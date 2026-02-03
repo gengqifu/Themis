@@ -40,6 +40,7 @@ def run_mr_scan_job(
         try:
             diff_text = client.get_diff_text_from_url(url=context.diff_url)
             if not _has_file_headers(diff_text):
+                print("themis MR scan: CI diff missing headers, fallback to API diff")
                 diff_text = None
                 primary_error = RuntimeError(
                     "MR diff from CI URL missing file headers"
