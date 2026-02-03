@@ -2,9 +2,11 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILD_DIR="${ROOT_DIR}/build/pyz"
+BUILD_BASE="${ROOT_DIR}/build"
+BUILD_DIR="${BUILD_BASE}/pyz"
 DIST_DIR="${ROOT_DIR}/dist"
-VENV_DIR="$(mktemp -d "${ROOT_DIR}/build/venv.XXXXXX")"
+mkdir -p "${BUILD_BASE}"
+VENV_DIR="$(mktemp -d "${BUILD_BASE}/venv.XXXXXX")"
 trap 'rm -rf "${VENV_DIR}"' EXIT
 
 rm -rf "${BUILD_DIR}" "${DIST_DIR}"
