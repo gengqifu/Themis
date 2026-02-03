@@ -173,8 +173,23 @@ class GitLabApiClient:
         parts: List[str] = []
         for change in changes:
             diff = change.get("diff")
-            if diff:
+            if not diff:
+                continue
+            if "diff --git " in diff or "\n+++ " in diff or diff.startswith("+++ "):
                 parts.append(diff)
+                continue
+            old_path = change.get("old_path") or ""
+            new_path = change.get("new_path") or old_path
+            if change.get("new_file"):
+                old_path = "dev/null"
+            if change.get("deleted_file"):
+                new_path = "dev/null"
+            header = [
+                f"diff --git a/{old_path} b/{new_path}",
+                f"--- a/{old_path}",
+                f"+++ b/{new_path}",
+            ]
+            parts.append("\n".join(header + [diff]))
         return validate_diff_text("\n".join(parts))
 
     def get_diff_text_from_url(self, *, url: str) -> str:
