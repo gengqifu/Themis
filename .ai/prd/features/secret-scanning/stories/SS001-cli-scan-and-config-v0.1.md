@@ -98,6 +98,8 @@ related_prd_feature: "../index.md"
 - 2026-02-03 - AI: `build-zipapp.sh` 改为使用临时 venv 安装依赖，避免 PEP 668 外部环境限制。
 - 2026-02-04 - AI: 新增 Android/iOS/Web(H5)/Backend 配置模板（含默认敏感信息规则集），并在 README 指向模板目录。
 - 2026-02-04 - AI: 补充 Android/iOS 模板中的平台特定敏感信息规则（如 Google API Key、GCP service account、keystore 密码、iOS provisioning profile 标记）。
+- 2026-02-04 - AI: CLI 扫描退出码改为读取 `scan.block_on_severity`（默认 critical），修复 commit 阻断阈值无法生效的问题。
+- 2026-02-04 - AI: 增加 CLI diff 模式测试，覆盖 block_on_severity 生效与非法值回退。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。

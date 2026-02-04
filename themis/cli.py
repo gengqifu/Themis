@@ -11,6 +11,7 @@ from .diff_utils import build_lines_map_from_diff
 from .exit_codes import compute_exit_code
 from .hooks import install_hooks, uninstall_hooks
 from .report import to_json, to_text
+from .rules import SEVERITY_ORDER
 from .scanner import scan_paths
 
 
@@ -62,7 +63,10 @@ def cmd_scan(args: argparse.Namespace) -> int:
         print(to_json(findings, redact_keep=cfg.get("output", {}).get("redact_keep", 2)))
     else:
         print(to_text(findings, redact_keep=cfg.get("output", {}).get("redact_keep", 2)))
-    return compute_exit_code(findings, block_threshold="critical", error=False)
+    threshold = str(cfg.get("scan", {}).get("block_on_severity", "critical")).lower()
+    if threshold not in SEVERITY_ORDER:
+        threshold = "critical"
+    return compute_exit_code(findings, block_threshold=threshold, error=False)
 
 
 def main(argv: Optional[List[str]] = None) -> int:
