@@ -147,9 +147,38 @@ Runner 配置检测流程（一步到位）：
 - `scan.mode`: `diff|full`
 - `scan.block_on_severity`: `low|medium|high|critical`
 - `scan.max_file_size_bytes`: 单文件大小阈值
-- `rules`: 规则列表（`id/severity/type/pattern/message`）
+- `rules`: 规则列表（`id/severity/type/pattern/message/enabled`）
 - `allowlist`: `paths/regexes/line_markers`
 - `output`: `format/redact_keep`
+
+## 规则编写与使用
+规则示例（regex 类型）：
+```yaml
+rules:
+  - id: GOOGLE_API_KEY
+    severity: high
+    type: regex
+    pattern: "AIza[0-9A-Za-z-_]{35}"
+    message: "Possible Google API key"
+    enabled: true
+```
+
+字段说明：
+- `id`: 规则唯一标识（建议全大写或驼峰）
+- `severity`: 严重程度（`low|medium|high|critical`）
+- `type`: 规则类型（当前仅支持 `regex`）
+- `pattern`: 正则表达式（按行匹配）
+- `message`: 命中提示信息
+- `enabled`: 是否启用（默认 true）
+
+规则使用方法：
+1) 在仓库根目录放置 `.themis.<platform>.yml`
+2) 将 `rules` 写入配置文件（可覆盖默认规则集）
+3) 运行 `themis scan ...` 或提交触发 hook
+
+规则文件位置建议：
+- 建议每个平台使用独立配置文件（Android/iOS/Web/Backend）
+- 如需共享规则，可复制模板后在各平台配置中同步更新
 
 ## 常见问题
 - **commit 不阻断**：确认 `.git/hooks/pre-commit` 可执行、命令指向正确的 `themis` 或 `themis.pyz`，并且 staged diff 中包含命中行。
