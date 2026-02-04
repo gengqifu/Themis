@@ -1,0 +1,43 @@
+# Template for Android projects
+scan:
+  mode: diff
+  max_file_size_bytes: 1048576
+output:
+  format: text
+  redact_keep: 2
+allowlist:
+  paths: []
+  regexes: []
+  line_markers:
+    - themis:ignore
+rules:
+  - id: PRIVATE_KEY_BLOCK
+    severity: critical
+    type: regex
+    pattern: "BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY"
+    message: "Private key block detected"
+    enabled: true
+  - id: GOOGLE_API_KEY
+    severity: high
+    type: regex
+    pattern: "AIza[0-9A-Za-z-_]{35}"
+    message: "Possible Google API key"
+    enabled: true
+  - id: GCP_SERVICE_ACCOUNT_EMAIL
+    severity: high
+    type: regex
+    pattern: "(?i)\\b[0-9A-Za-z\\-]+@([0-9A-Za-z\\-]+\\.)*gserviceaccount\\.com\\b"
+    message: "GCP service account email detected"
+    enabled: true
+  - id: GCP_SERVICE_ACCOUNT_TYPE
+    severity: high
+    type: regex
+    pattern: "\"type\"\\s*:\\s*\"service_account\""
+    message: "GCP service account JSON detected"
+    enabled: true
+  - id: ANDROID_KEYSTORE_PASSWORD
+    severity: high
+    type: regex
+    pattern: "(?i)\\b(storePassword|keyPassword)\\b\\s*(?:[:=]|\\s)\\s*['\"]?[^'\"\\s]+"
+    message: "Android keystore password detected"
+    enabled: true

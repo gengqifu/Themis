@@ -1,0 +1,19 @@
+# Template for Backend (Java/Go) projects
+scan:
+  mode: diff
+  max_file_size_bytes: 1048576
+output:
+  format: text
+  redact_keep: 2
+allowlist:
+  paths: []
+  regexes: []
+  line_markers:
+    - themis:ignore
+rules:
+  - id: PRIVATE_KEY_BLOCK
+    severity: critical
+    type: regex
+    pattern: "BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY"
+    message: "Private key block detected"
+    enabled: true

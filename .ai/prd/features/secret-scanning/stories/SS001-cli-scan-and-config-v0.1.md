@@ -96,6 +96,8 @@ related_prd_feature: "../index.md"
 - 2026-01-30 - AI: 已更新本 Story 的 Development Notes & Log，完成任务 14。
 - 2026-02-03 - AI: 新增 zipapp 打包脚本 `bin/build-zipapp.sh` 与 README 说明，提供单文件分发方式（A-1）。
 - 2026-02-03 - AI: `build-zipapp.sh` 改为使用临时 venv 安装依赖，避免 PEP 668 外部环境限制。
+- 2026-02-04 - AI: 新增 Android/iOS/Web(H5)/Backend 配置模板（含默认敏感信息规则集），并在 README 指向模板目录。
+- 2026-02-04 - AI: 补充 Android/iOS 模板中的平台特定敏感信息规则（如 Google API Key、GCP service account、keystore 密码、iOS provisioning profile 标记）。
 
 ## 9. AI 交互日志 (Chat Command Log - AI Interaction Record)
 - 用户: MR 使用 GitLab CI 触发扫描并回写评论（不阻断合并）；commit 阶段仅 `critical` 阻断；多仓多平台，每个平台独立配置文件（`.themis.<platform>.yml`）；输出默认脱敏，配置开关可调整。
@@ -112,3 +114,5 @@ related_prd_feature: "../index.md"
 - 用户: 执行 SS001 任务 5.11（输出格式化与退出码约定实现）。
 - 用户: 执行 SS001 任务 5.12（默认规则归档与测试）。
 - 用户: 执行 SS001 任务 5.13（重构清理重复逻辑）。
+- 用户: 需要提供各平台配置模板，包含默认敏感信息规则集。
+- 用户: 需要补充 Android/iOS 平台敏感信息规则，写入模板配置。

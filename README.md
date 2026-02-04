@@ -28,6 +28,7 @@
 ## 配置文件
 - 平台默认配置文件命名：
   - `.themis.android.yml` / `.themis.ios.yml` / `.themis.backend.yml` / `.themis.web.yml`
+ - 配置模板（包含默认敏感信息规则集）：`config-templates/`
 - 可选字段（顶层）：`scan` / `rules` / `allowlist` / `baseline` / `output`
 - 示例（最小可用）：
   ```yaml
