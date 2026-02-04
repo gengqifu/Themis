@@ -99,3 +99,36 @@ def test_cli_diff_mode_invalid_block_on_severity_falls_back(
         ["scan", str(tmp_path), "--platform", "android", "--diff-file", str(diff)]
     )
     assert exit_code == 0
+
+
+def test_cli_diff_mode_with_relative_path(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    target = tmp_path / "d.txt"
+    target.write_text("line1\nSECRET123\n", encoding="utf-8")
+    diff = tmp_path / "d.patch"
+    diff.write_text(
+        """diff --git a/d.txt b/d.txt
+--- a/d.txt
++++ b/d.txt
+@@ -1,1 +1,2 @@
+ line1
++SECRET123
+""",
+        encoding="utf-8",
+    )
+    cfg = tmp_path / ".themis.android.yml"
+    cfg.write_text(
+        "scan:\n"
+        "  mode: diff\n"
+        "  block_on_severity: high\n"
+        "rules:\n"
+        "  - id: TEST_HIGH\n"
+        "    severity: high\n"
+        "    type: regex\n"
+        "    pattern: \"SECRET123\"\n"
+        "    message: \"test high\"\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("CI_MERGE_REQUEST_DIFF_URL", "")
+    exit_code = main(["scan", ".", "--platform", "android", "--diff-file", str(diff)])
+    assert exit_code == 2

@@ -78,7 +78,8 @@ def scan_paths(
         if allowlist_paths and is_ignored_by_path(rel, allowlist_paths):
             continue
         if only_lines is not None:
-            if rel not in only_lines:
+            abs_path = str(path.resolve())
+            if abs_path not in only_lines:
                 continue
             if is_too_large(path, max_file_size_bytes=max_file_size_bytes) or is_binary_file(path):
                 continue
@@ -86,8 +87,8 @@ def scan_paths(
                 scan_text(
                     path.read_text(encoding="utf-8", errors="ignore"),
                     rules=rules,
-                    file_path=rel,
-                    only_lines=only_lines[rel],
+                    file_path=abs_path,
+                    only_lines=only_lines[abs_path],
                 )
             )
         else:
