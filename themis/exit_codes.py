@@ -13,9 +13,11 @@ def compute_exit_code(
 ) -> int:
     if error:
         return 1
-    threshold = SEVERITY_ORDER.get(block_threshold, 0)
+    threshold_key = str(block_threshold).lower().strip()
+    threshold = SEVERITY_ORDER.get(threshold_key, 0)
     for f in findings:
-        sev = SEVERITY_ORDER.get(str(f.get("severity", "")).lower(), 0)
+        sev_key = str(f.get("severity", "")).lower().strip()
+        sev = SEVERITY_ORDER.get(sev_key, 0)
         if sev >= threshold:
             return 2
     return 0

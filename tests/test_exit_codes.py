@@ -10,5 +10,10 @@ def test_exit_code_block_on_critical() -> None:
     assert compute_exit_code(findings, block_threshold="critical") == 2
 
 
+def test_exit_code_strips_severity_and_threshold() -> None:
+    findings = [{"severity": " High  "}]
+    assert compute_exit_code(findings, block_threshold="  high ") == 2
+
+
 def test_exit_code_error() -> None:
     assert compute_exit_code([], error=True) == 1
