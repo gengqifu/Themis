@@ -114,6 +114,20 @@ script:
     PY
 ```
 
+Runner 配置检测流程（一步到位）：
+1) 打开项目页面 → Settings → CI/CD → Runners，确认已有可用 Runner（状态为 online）。
+2) Runner executor 选择 `docker`，并可拉取镜像（建议 `python:3.12`）。
+3) 在 CI/CD Variables 配置 `GITLAB_TOKEN`（具备创建 MR discussion 权限）。
+4) 设置 `GIT_DEPTH: "0"`，避免 `no merge base`。
+5) 提交一个 MR，触发 pipeline，在 Job 日志里确认：
+   - 成功拉取仓库代码；
+   - 能访问 GitLab API（无 4xx/5xx 报错）；
+   - MR diff 获取成功。
+6) 若无 discussion：
+   - 确认使用 `mr_integration` 入口；
+   - 确认 `GITLAB_TOKEN` 权限与 scope；
+   - 确认 Runner 能访问 `CI_API_V4_URL`。
+
 必需环境变量（在 GitLab CI/CD Variables 配置）：
 - `GITLAB_TOKEN`（建议使用 masked + protected，最小权限）
 - `CI_PROJECT_ID`
